@@ -7,12 +7,15 @@ const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cookie_session_1 = __importDefault(require("cookie-session"));
 const cors_1 = __importDefault(require("cors"));
+const page_routes_1 = __importDefault(require("./routes/page.routes"));
+const user_routes_1 = __importDefault(require("./routes/user.routes"));
+const game_routes_1 = __importDefault(require("./routes/game.routes"));
 dotenv_1.default.config();
 // Create server
 const app = (0, express_1.default)();
 // Middlewares
 app.use((0, cors_1.default)({
-    origin: "https://",
+    origin: "http://localhost",
     credentials: true,
 }));
 const SIGN_KEY = process.env.COOKIE_SIGN_KEY;
@@ -22,19 +25,23 @@ if (!SIGN_KEY || !ENCRYPT_KEY) {
 }
 app.use((0, cookie_session_1.default)({
     name: "session",
-    keys: [],
+    keys: [SIGN_KEY, ENCRYPT_KEY],
     maxAge: 5 * 60 * 1000,
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+// Routes
+app.use("/boardgame", game_routes_1.default);
+app.use("/user", user_routes_1.default);
+app.use("/", page_routes_1.default);
 // 404 Fallback
 app.use((req, res) => {
     res.status(404).json({
-        message: "Page not found!",
+        message: "Page not found! ❌",
     });
 });
 // Start server
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port http://localhost:${PORT} 🚀`);
 });
