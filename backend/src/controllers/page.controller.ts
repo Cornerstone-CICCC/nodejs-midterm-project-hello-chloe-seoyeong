@@ -9,8 +9,11 @@ import { IUser } from "../types/user";
  * @param {Response} res
  * @returns {void} Render home page
  */
-const getHome = (req: Request, res: Response) => {
-  res.status(200).send("Welcome to home.");
+const getHome = async (req: Request, res: Response) => {
+  const data = await fetch("https://bgg-json.azurewebsites.net/hot");
+  const json = await data.json();
+  res.status(200).json(json);
+  return json;
 };
 
 /**
@@ -88,7 +91,7 @@ const postLogin = async (
     req.session.username = username;
   }
   res.status(200).json({
-    message: "Successfully Logged In!",
+    username,
   });
 };
 

@@ -4,7 +4,7 @@ import cookieSession from "cookie-session";
 import cors from "cors";
 import pageRouter from "./routes/page.routes";
 import userRoutes from "./routes/user.routes";
-import gameRouter from "./routes/game.routes";
+import reviewRouter from "./routes/review.routes";
 dotenv.config();
 
 // Create server
@@ -13,7 +13,7 @@ const app = express();
 // Middlewares
 app.use(
   cors({
-    origin: "http://localhost",
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -33,7 +33,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use("/boardgame", gameRouter);
+app.use("/review", reviewRouter);
 app.use("/user", userRoutes);
 app.use("/", pageRouter);
 

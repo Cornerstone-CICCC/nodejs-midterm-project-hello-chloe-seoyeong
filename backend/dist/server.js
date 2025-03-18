@@ -9,13 +9,13 @@ const cookie_session_1 = __importDefault(require("cookie-session"));
 const cors_1 = __importDefault(require("cors"));
 const page_routes_1 = __importDefault(require("./routes/page.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
-const game_routes_1 = __importDefault(require("./routes/game.routes"));
+const review_routes_1 = __importDefault(require("./routes/review.routes"));
 dotenv_1.default.config();
 // Create server
 const app = (0, express_1.default)();
 // Middlewares
 app.use((0, cors_1.default)({
-    origin: "http://localhost",
+    origin: "http://localhost:3000",
     credentials: true,
 }));
 const SIGN_KEY = process.env.COOKIE_SIGN_KEY;
@@ -31,7 +31,7 @@ app.use((0, cookie_session_1.default)({
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 // Routes
-app.use("/boardgame", game_routes_1.default);
+app.use("/review", review_routes_1.default);
 app.use("/user", user_routes_1.default);
 app.use("/", page_routes_1.default);
 // 404 Fallback

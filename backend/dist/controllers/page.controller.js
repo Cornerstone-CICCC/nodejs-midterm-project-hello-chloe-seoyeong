@@ -20,9 +20,12 @@ const user_model_1 = __importDefault(require("../models/user.model"));
  * @param {Response} res
  * @returns {void} Render home page
  */
-const getHome = (req, res) => {
-    res.status(200).send("Welcome to home.");
-};
+const getHome = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield fetch("https://bgg-json.azurewebsites.net/hot");
+    const json = yield data.json();
+    res.status(200).json(json);
+    return json;
+});
 /**
  * Displays the join page
  *
@@ -89,7 +92,7 @@ const postLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         req.session.username = username;
     }
     res.status(200).json({
-        message: "Successfully Logged In!",
+        username,
     });
 });
 exports.default = {
