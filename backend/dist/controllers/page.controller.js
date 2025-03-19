@@ -95,6 +95,12 @@ const postLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         username,
     });
 });
+const logout = (req, res) => {
+    req.session = null;
+    res.status(200).json({
+        message: "Successfully log outted",
+    });
+};
 exports.default = {
     getHome,
     getJoin,

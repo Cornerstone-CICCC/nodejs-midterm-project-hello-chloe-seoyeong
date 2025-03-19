@@ -54,8 +54,8 @@ class UserModel {
             return user;
         });
     }
-    getUserById(id) {
-        const user = this.users.findIndex((u) => u.id === id);
+    getUserByUsername(username) {
+        const user = this.users.findIndex((u) => u.username === username);
         return user;
     }
     editUserById(id, updates) {
@@ -79,6 +79,5 @@ class UserModel {
             return updatedUser;
         });
     }
-    logout(id) { }
 }
 exports.default = new UserModel();

@@ -7,9 +7,9 @@ const getAllUsers = (req: Request, res: Response) => {
   res.status(200).json(users);
 };
 
-const getUser = (req: Request<{ id: string }>, res: Response) => {
-  const { id } = req.params;
-  const user = userModel.getUserById(id);
+const getUser = (req: Request<{ username: string }>, res: Response) => {
+  const { username } = req.params;
+  const user = userModel.getUserByUsername(username);
   if (!user) {
     res.status(404).json({
       message: "User does not exist!",
@@ -18,9 +18,9 @@ const getUser = (req: Request<{ id: string }>, res: Response) => {
   }
   res.status(200).json(user);
 };
-const getEdit = (req: Request<{ id: string }>, res: Response) => {
-  const { id } = req.params;
-  const user = userModel.getUserById(id);
+const getEdit = (req: Request<{ username: string }>, res: Response) => {
+  const { username } = req.params;
+  const user = userModel.getUserByUsername(username);
   if (!user) {
     res.status(400).json({
       message: "User does not exist!",

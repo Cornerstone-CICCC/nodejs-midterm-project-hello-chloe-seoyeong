@@ -5,10 +5,11 @@ class BoardGame {
   private boardGamesReviews: IBoardGameReview[] = [];
 
   getAllReviews() {
+    if (this.boardGamesReviews.length === 0) return false;
     return this.boardGamesReviews;
   }
   getReviewById(id: string) {
-    const review = this.boardGamesReviews.findIndex((r) => r.id === id);
+    const review = this.foundIndexReview(id);
     if (review === -1) return false;
     return review;
   }
@@ -22,8 +23,32 @@ class BoardGame {
     this.boardGamesReviews.push(newReview);
     return newReview;
   }
-  editReview() {}
-  deleteReview() {}
+  async editReview(id: string, updates: Partial<IBoardGameReview>) {
+    const review = this.foundIndexReview(id);
+    if (review === -1) return false;
+
+    const updateReview = {
+      ...this.boardGamesReviews[review],
+      title: updates.title ?? this.boardGamesReviews[review].title,
+      category: updates.category ?? this.boardGamesReviews[review].category,
+    };
+    this.boardGamesReviews = [
+      ...this.boardGamesReviews.slice(0, review),
+      updateReview,
+      ...this.boardGamesReviews.slice(review + 1),
+    ];
+    return updateReview;
+  }
+  deleteReview(id: string) {
+    const review = this.foundIndexReview(id);
+    if (review === -1) return false;
+
+    this.boardGamesReviews.splice(review, 1);
+    return true;
+  }
+  foundIndexReview(id: string) {
+    return this.boardGamesReviews.findIndex((r) => r.id === id);
+  }
 }
 
 export default new BoardGame();

@@ -38,8 +38,8 @@ class UserModel {
 
     return user;
   }
-  getUserById(id: string) {
-    const user = this.users.findIndex((u) => u.id === id);
+  getUserByUsername(username: string) {
+    const user = this.users.findIndex((u) => u.username === username);
     return user;
   }
   async editUserById(id: string, updates: Partial<IUser>) {
@@ -66,7 +66,6 @@ class UserModel {
     ];
     return updatedUser;
   }
-  logout(id: string) {}
 }
 
 export default new UserModel();

@@ -18,8 +18,8 @@ const getAllUsers = (req, res) => {
     res.status(200).json(users);
 };
 const getUser = (req, res) => {
-    const { id } = req.params;
-    const user = user_model_1.default.getUserById(id);
+    const { username } = req.params;
+    const user = user_model_1.default.getUserByUsername(username);
     if (!user) {
         res.status(404).json({
             message: "User does not exist!",
@@ -29,8 +29,8 @@ const getUser = (req, res) => {
     res.status(200).json(user);
 };
 const getEdit = (req, res) => {
-    const { id } = req.params;
-    const user = user_model_1.default.getUserById(id);
+    const { username } = req.params;
+    const user = user_model_1.default.getUserByUsername(username);
     if (!user) {
         res.status(400).json({
             message: "User does not exist!",

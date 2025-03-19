@@ -95,6 +95,13 @@ const postLogin = async (
   });
 };
 
+const logout = (req: Request<{}, {}, Omit<IUser, "id">>, res: Response) => {
+  req.session = null;
+  res.status(200).json({
+    message: "Successfully log outted",
+  });
+};
+
 export default {
   getHome,
   getJoin,
