@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { userState } from "../atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isLoggedInState, userState } from "../atom";
 
 interface ILoginForm {
   username: string;
@@ -17,6 +17,8 @@ const Form = styled.form`
 
 function Login() {
   const setUserState = useSetRecoilState(userState);
+  const [isLoggedIn, setLoggedIn] = useRecoilState(isLoggedInState);
+
   let navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm<ILoginForm>();
   const onValid = async (data: ILoginForm) => {
@@ -32,6 +34,9 @@ function Login() {
       navigate("/login");
       return;
     }
+    const username = data.username;
+    setUserState({ username });
+    setLoggedIn(true);
     navigate("/");
   };
   return (

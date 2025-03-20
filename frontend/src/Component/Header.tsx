@@ -1,9 +1,12 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import { isLoggedInState } from "../atom";
 
 const Nav = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 8px;
 `;
 
 const Col = styled.div`
@@ -22,6 +25,17 @@ const Menu = styled.li`
 `;
 
 function Header() {
+  let navigate = useNavigate();
+  const [isLoggedIn, setLoggedIn] = useRecoilState(isLoggedInState);
+  const handleLogout = async (event: React.MouseEvent<HTMLButtonElement>) => {
+    const res = await fetch("http://localhost:3500/logout", {
+      method: "GET",
+      credentials: "include",
+    });
+    if (!res.ok) return false;
+    setLoggedIn(false);
+    navigate("/");
+  };
   return (
     <Nav>
       <Col>
@@ -29,14 +43,21 @@ function Header() {
           <Menu>
             <Link to="/">Home</Link>
           </Menu>
-          <Menu>
-            <Link to="/join">Join</Link>
-          </Menu>
+          {isLoggedIn ? (
+            <button onClick={handleLogout}>Logout</button>
+          ) : (
+            <>
+              <Menu>
+                <Link to="/join">Join</Link>
+              </Menu>
+              <Menu>
+                <Link to="/login">Login</Link>
+              </Menu>
+            </>
+          )}
         </Menus>
       </Col>
-      <Col>
-        <button>Search</button>
-      </Col>
+      <Col>{isLoggedIn && <Link to="/profile">Profile</Link>}</Col>
     </Nav>
   );
 }

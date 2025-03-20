@@ -69,6 +69,12 @@ a {
 ul, ol, li {
   list-style: none;
 }
+body {
+  background:linear-gradient(135deg,#0077ee,#00a6ff);
+  width: 100vw;
+  height: 100vh;
+  color: #fff;
+}
 `;
 
 const root = ReactDOM.createRoot(

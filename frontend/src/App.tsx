@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Component/Header";
-import Register from "./Component/Register";
-import Login from "./Component/Login";
+import Login from "./Routes/Login";
 import Home from "./Routes/Home";
 import Join from "./Routes/Join";
 import Profile from "./Routes/Profile";
+import MyList from "./Routes/MyList";
 
 function App() {
   return (
@@ -12,11 +12,10 @@ function App() {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="join" element={<Join />}>
-          <Route path="signup" element={<Register />} />
-          <Route index path="login" element={<Login />} />
-        </Route>
+        <Route path="join" element={<Join />} />
+        <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />
+        <Route path="review" element={<MyList />} />
       </Routes>
     </Router>
   );
