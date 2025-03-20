@@ -3,20 +3,6 @@ import userModel from "../models/user.model";
 import { IUser } from "../types/user";
 
 /**
- * Displays the home page
- *
- * @param {Request} req
- * @param {Response} res
- * @returns {void} Render home page
- */
-const getHome = async (req: Request, res: Response) => {
-  const data = await fetch("https://bgg-json.azurewebsites.net/hot");
-  const json = await data.json();
-  res.status(200).json(json);
-  return json;
-};
-
-/**
  * Displays the join page
  *
  * @param {Request} req
@@ -75,7 +61,7 @@ const postJoin = async (
  * @returns {void} Render home page
  */
 const postLogin = async (
-  req: Request<{}, {}, { username: string; password: string }>,
+  req: Request<{}, {}, Omit<IUser, "id">>,
   res: Response
 ) => {
   const { username, password } = req.body;
@@ -88,14 +74,19 @@ const postLogin = async (
   }
   if (req.session) {
     req.session.isLoggedIn = true;
-    req.session.username = username;
+    req.session.username = user.username;
   }
-  res.status(200).json({
-    username,
-  });
+  res.status(200).json(user);
 };
 
-const logout = (req: Request<{}, {}, Omit<IUser, "id">>, res: Response) => {
+/**
+ * Logout
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {void} Clear cookie session
+ */
+const getLogout = (req: Request<{}, {}, Omit<IUser, "id">>, res: Response) => {
   req.session = null;
   res.status(200).json({
     message: "Successfully log outted",
@@ -103,9 +94,9 @@ const logout = (req: Request<{}, {}, Omit<IUser, "id">>, res: Response) => {
 };
 
 export default {
-  getHome,
   getJoin,
   postJoin,
   getLogin,
   postLogin,
+  getLogout,
 };

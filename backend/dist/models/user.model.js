@@ -55,15 +55,17 @@ class UserModel {
         });
     }
     getUserByUsername(username) {
-        const user = this.users.findIndex((u) => u.username === username);
+        const user = this.users.find((u) => u.username === username);
         return user;
     }
-    editUserById(id, updates) {
+    editUserById(updates) {
         return __awaiter(this, void 0, void 0, function* () {
             var _a, _b, _c;
-            const foundIndex = this.users.findIndex((user) => user.id === id);
+            const foundIndex = this.users.findIndex((user) => user.username === updates.username);
             if (foundIndex === -1)
                 return false;
+            const user = this.users.find((u) => u.username === updates.username);
+            // return user;
             let hashedpassword = undefined;
             if (updates.password) {
                 hashedpassword = yield bcrypt_1.default.hash(updates.password, 12);

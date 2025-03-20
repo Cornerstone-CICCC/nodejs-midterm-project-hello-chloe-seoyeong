@@ -39,12 +39,16 @@ class UserModel {
     return user;
   }
   getUserByUsername(username: string) {
-    const user = this.users.findIndex((u) => u.username === username);
+    const user = this.users.find((u) => u.username === username);
     return user;
   }
-  async editUserById(id: string, updates: Partial<IUser>) {
-    const foundIndex = this.users.findIndex((user) => user.id === id);
+  async editUserById(updates: Partial<IUser>) {
+    const foundIndex = this.users.findIndex(
+      (user) => user.username === updates.username
+    );
     if (foundIndex === -1) return false;
+    const user = this.users.find((u) => u.username === updates.username);
+    // return user;
     let hashedpassword = undefined;
     if (updates.password) {
       hashedpassword = await bcrypt.hash(updates.password, 12);

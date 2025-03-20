@@ -18,15 +18,21 @@ const getAllUsers = (req, res) => {
     res.status(200).json(users);
 };
 const getUser = (req, res) => {
-    const { username } = req.params;
-    const user = user_model_1.default.getUserByUsername(username);
-    if (!user) {
-        res.status(404).json({
-            message: "User does not exist!",
-        });
+    if (!req.session || !req.session.username) {
+        res.status(403).json({ message: "Forbidden" });
         return;
     }
-    res.status(200).json(user);
+    if (req.session && req.session.username) {
+        const user = user_model_1.default.getUserByUsername(req.session.username);
+        if (!user) {
+            res.status(404).json({
+                message: "User does not exist!",
+            });
+            return;
+        }
+        res.status(200).json(user);
+        // return user;
+    }
 };
 const getEdit = (req, res) => {
     const { username } = req.params;
@@ -40,9 +46,9 @@ const getEdit = (req, res) => {
     res.status(200).json(user);
 };
 const putEdit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
+    // const { id } = req.params;
     const { username, password, firstname, lastname } = req.body;
-    const user = yield user_model_1.default.editUserById(id, {
+    const user = yield user_model_1.default.editUserById({
         username,
         password,
         firstname,

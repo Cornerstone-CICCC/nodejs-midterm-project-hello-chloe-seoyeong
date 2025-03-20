@@ -6,10 +6,12 @@ export const checkLoggedIn = (
   next: NextFunction
 ) => {
   if (req.session && req.session.isLoggedIn) {
-    res.status(303).redirect("/");
+    next();
     return;
   }
-  next();
+  res
+    .status(403)
+    .json({ message: "You are not allowed to access this resource!" });
 };
 
 export const checkLoggedOut = (
