@@ -4,6 +4,8 @@ import App from "./App";
 import { RecoilRoot } from "recoil";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme } from "./theme";
+import RoutesComp from "./Routes";
+import { BrowserRouter } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -70,7 +72,8 @@ ul, ol, li {
   list-style: none;
 }
 body {
-  background:linear-gradient(135deg,#0077ee,#00a6ff);
+  background: rgb(161,159,159);
+  background: linear-gradient(126deg, rgba(161,159,159,1) 0%, rgba(13,99,163,1) 46%, rgba(162,162,162,1) 100%);
   width: 100vw;
   height: 100vh;
   color: #fff;
@@ -85,7 +88,9 @@ root.render(
     <RecoilRoot>
       <ThemeProvider theme={darkTheme}>
         <GlobalStyle />
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ThemeProvider>
     </RecoilRoot>
   </React.StrictMode>

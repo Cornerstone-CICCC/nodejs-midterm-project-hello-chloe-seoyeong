@@ -1,23 +1,47 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Component/Header";
-import Login from "./Routes/Login";
-import Home from "./Routes/Home";
-import Join from "./Routes/Join";
-import Profile from "./Routes/Profile";
-import MyList from "./Routes/MyList";
+import RoutesComp from "./Routes";
+import styled from "styled-components";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isLoggedInState, userDetailState } from "./atom";
+import { useEffect } from "react";
+import { fetchGetUser } from "./fetcher";
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+`;
 
 function App() {
+  const setLoggedIn = useSetRecoilState(isLoggedInState);
+  const [userDetail, setUserDetail] = useRecoilState(userDetailState);
+
+  useEffect(() => {
+    // (async () => {
+    //   const res = await fetch(`http://localhost:3500/user/profile`, {
+    //     method: "GET",
+    //     credentials: "include",
+    //   });
+    //   if (!res.ok) {
+    //   }
+    //   const user = await res.json();
+    //   setLoggedIn(user.authCheck);
+    //   setUserDetail(user.user);
+    // })();
+    (async () => {
+      const user = await fetchGetUser();
+      setLoggedIn(user.authCheck);
+      setUserDetail(user.user);
+    })();
+  }, []);
+
+  console.log(userDetail);
+
   return (
-    <Router>
+    <Container>
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="join" element={<Join />} />
-        <Route path="login" element={<Login />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="review" element={<MyList />} />
-      </Routes>
-    </Router>
+      <RoutesComp />
+    </Container>
   );
 }
 
