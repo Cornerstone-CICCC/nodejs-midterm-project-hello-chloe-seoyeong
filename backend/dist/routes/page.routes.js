@@ -12,6 +12,7 @@ pageRouter.get("/join", user_middleware_1.checkLoggedIn, page_controller_1.defau
 pageRouter.post("/join", page_controller_1.default.postJoin);
 pageRouter.get("/login", user_middleware_1.checkLoggedIn, page_controller_1.default.getLogin);
 pageRouter.post("/login", page_controller_1.default.postLogin);
-pageRouter.get("/gamelist", game_controller_1.default.getGameList);
+// pageRouter.get("/gamelist", gameController.getGameList);
+pageRouter.get("/gamelist", game_controller_1.default.getInMemoryGame);
 pageRouter.get("/logout", page_controller_1.default.getLogout);
 exports.default = pageRouter;

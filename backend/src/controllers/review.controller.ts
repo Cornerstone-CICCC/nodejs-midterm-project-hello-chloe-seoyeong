@@ -28,8 +28,8 @@ const boardGameList: IBoardGameReview[] = [
 ];
 
 const getAllReviews = (req: Request, res: Response) => {
-  // const reviews = reviewModel.getAllReviews();
-  const reviews = boardGameList;
+  const reviews = reviewModel.getAllReviews();
+  // const reviews = boardGameList;
   if (!reviews) {
     res.status(400).json({
       message: "No Review.",
@@ -85,9 +85,7 @@ const deleteReview = (req: Request<{ id: string }>, res: Response) => {
     });
     return;
   }
-  res.status(200).json({
-    message: "delete review",
-  });
+  res.status(200).json(deleted);
 };
 
 const editReview = async (

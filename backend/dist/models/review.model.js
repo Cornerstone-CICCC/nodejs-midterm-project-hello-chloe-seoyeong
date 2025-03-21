@@ -20,9 +20,10 @@ class BoardGame {
         return this.boardGamesReviews;
     }
     getReviewById(id) {
-        const review = this.foundIndexReview(id);
-        if (review === -1)
+        const reviewIndex = this.foundIndexReview(id);
+        if (reviewIndex === -1)
             return false;
+        const review = this.boardGamesReviews[reviewIndex];
         return review;
     }
     createReview(review) {
@@ -57,7 +58,7 @@ class BoardGame {
         if (review === -1)
             return false;
         this.boardGamesReviews.splice(review, 1);
-        return true;
+        return this.boardGamesReviews;
     }
     foundIndexReview(id) {
         return this.boardGamesReviews.findIndex((r) => r.id === id);

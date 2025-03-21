@@ -37,8 +37,8 @@ const boardGameList = [
     },
 ];
 const getAllReviews = (req, res) => {
-    // const reviews = reviewModel.getAllReviews();
-    const reviews = boardGameList;
+    const reviews = review_model_1.default.getAllReviews();
+    // const reviews = boardGameList;
     if (!reviews) {
         res.status(400).json({
             message: "No Review.",
@@ -85,9 +85,7 @@ const deleteReview = (req, res) => {
         });
         return;
     }
-    res.status(200).json({
-        message: "delete review",
-    });
+    res.status(200).json(deleted);
 };
 const editReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
