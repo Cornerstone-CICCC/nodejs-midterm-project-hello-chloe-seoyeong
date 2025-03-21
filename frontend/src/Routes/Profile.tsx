@@ -1,10 +1,11 @@
 import { useRecoilState, useRecoilValue } from "recoil";
-import { isLoggedInState, userDetailState } from "../atom";
+import { isLoggedInState, IUserDetail, userDetailState } from "../atom";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { fetchGetUser } from "../fetcher";
+import ProfileCard from "../Component/ProfileCard";
 
 const FormCard = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.8);
@@ -44,13 +45,6 @@ const Button = styled.button`
   color: #fff;
   border: 0;
 `;
-interface IProfileForm {
-  username: string;
-  password: string;
-  firstname: string;
-  lastname: string;
-}
-
 function Profile() {
   let navigate = useNavigate();
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -58,12 +52,11 @@ function Profile() {
     navigate("/");
   }
   const [isEdit, setEdit] = useState(false);
-  const { register, handleSubmit, setValue, formState } =
-    useForm<IProfileForm>();
+  const { register, handleSubmit, setValue } = useForm<IUserDetail>();
 
   const [userDetail, setUserDetail] = useRecoilState(userDetailState);
 
-  const onValid = async (data: IProfileForm) => {
+  const onValid = async (data: IUserDetail) => {
     if (!isEdit) {
       return false;
     }
@@ -103,53 +96,56 @@ function Profile() {
   }
 
   return (
-    <FormCard>
+    <>
       {isEdit ? (
-        <Form method="PUT" onSubmit={handleSubmit(onValid)}>
-          <Label>
-            <span>Username</span>
-            <Input
-              {...register("username", {})}
-              type="text"
-              name="username"
-              readOnly
-            />
-          </Label>
-          <Label>
-            <span>Password</span>
-            <Input
-              {...register("password", {})}
-              type="password"
-              name="password"
-              readOnly={isEdit ? false : true}
-            />
-          </Label>
-          <Label>
-            <span>First name</span>
-            <Input
-              {...register("firstname", {})}
-              type="text"
-              name="firstname"
-              readOnly={isEdit ? false : true}
-            />
-          </Label>
-          <Label>
-            <span>Second name</span>
-            <Input
-              {...register("lastname", {})}
-              type="text"
-              name="lastname"
-              readOnly={isEdit ? false : true}
-            />
-          </Label>
-          <Button>Save</Button>
-        </Form>
+        <FormCard>
+          <Form method="PUT" onSubmit={handleSubmit(onValid)}>
+            <Label>
+              <span>Username</span>
+              <Input
+                {...register("username", {})}
+                type="text"
+                name="username"
+                readOnly
+              />
+            </Label>
+            <Label>
+              <span>Password</span>
+              <Input
+                {...register("password", {})}
+                type="password"
+                name="password"
+                readOnly={isEdit ? false : true}
+              />
+            </Label>
+            <Label>
+              <span>First name</span>
+              <Input
+                {...register("firstname", {})}
+                type="text"
+                name="firstname"
+                readOnly={isEdit ? false : true}
+              />
+            </Label>
+            <Label>
+              <span>Second name</span>
+              <Input
+                {...register("lastname", {})}
+                type="text"
+                name="lastname"
+                readOnly={isEdit ? false : true}
+              />
+            </Label>
+            <Button>Save</Button>
+          </Form>
+        </FormCard>
       ) : (
         <div>
+          <ProfileCard {...userDetail} />
           <Button onClick={onEdit}>Edit</Button>
         </div>
       )}
-    </FormCard>
+    </>
   );
 }
 

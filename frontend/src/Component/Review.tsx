@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { IReviewList } from "../atom";
+import { IReviewList, RateEmoji, reviewsState } from "../atom";
+import { useSetRecoilState } from "recoil";
 
 const Card = styled.div`
   width: 200px;
@@ -14,12 +15,31 @@ const Card = styled.div`
   }
 `;
 
+const Title = styled.div`
+  font-size: 20px;
+`;
+
 function Review({ id, title, category, rate, detail }: IReviewList) {
+  const setReviews = useSetRecoilState(reviewsState);
+  const deleteReview = async () => {
+    const res = await fetch(`http://localhost:3500/review/${id}/delete`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (!res.ok) {
+      return;
+    }
+    const data = await res.json();
+    setReviews(data);
+  };
+
   return (
     <Card>
-      <span>{title}</span>
+      <Title>{title}</Title>
       <span>{category}</span>
-      <span>{id}</span>
+      <span>{rate}</span>
+      <span>{detail}</span>
+      <button onClick={deleteReview}>Delete</button>
     </Card>
   );
 }

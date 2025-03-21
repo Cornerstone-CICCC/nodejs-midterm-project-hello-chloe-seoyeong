@@ -21,6 +21,7 @@ const Board = styled.div`
       width: 20px;
       right: 0;
       height: 100%;
+      background: rgb(0, 172, 14);
     }
   }
   &:nth-child(4),
@@ -30,6 +31,7 @@ const Board = styled.div`
       width: 20px;
       left: 0;
       height: 100%;
+      background: rgb(172, 5, 255);
     }
   }
   &:nth-child(7),
@@ -38,6 +40,27 @@ const Board = styled.div`
     .mark {
       top: 0;
       height: 20px;
+      background: rgb(7, 65, 255);
+    }
+  }
+  @media screen and (max-width: 700px) {
+    &:first-child,
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4),
+    &:nth-child(5),
+    &:nth-child(6),
+    &:nth-child(7),
+    &:nth-child(8) {
+      width: 50%;
+      .mark {
+        top: 0;
+        bottom: unset;
+        right: 0;
+        left: 0;
+        height: 20px;
+        width: 100%;
+      }
     }
   }
 `;
@@ -45,13 +68,13 @@ const Board = styled.div`
 const Mark = styled.div`
   width: 100%;
   height: 20px;
-  background: rgb(255, 133, 105);
-  background: linear-gradient(
+  background: rgb(255, 62, 19);
+  /* background: linear-gradient(
     126deg,
     rgba(255, 133, 105, 1) 0%,
     rgba(235, 121, 27, 1) 46%,
     rgba(255, 51, 51, 1) 100%
-  );
+  ); */
   position: absolute;
 `;
 

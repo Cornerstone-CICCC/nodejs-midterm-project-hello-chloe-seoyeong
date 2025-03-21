@@ -4,7 +4,15 @@ interface IUserInfo {
   username: string | null;
 }
 
-interface IUserDetail {
+export enum RateEmoji {
+  "EXCELLENT",
+  "GREAT",
+  "GOOD",
+  "NOTBAD",
+  "WOOOOOOO",
+}
+
+export interface IUserDetail {
   username: string;
   password: string;
   firstname: string;
@@ -34,7 +42,7 @@ export interface IReviewList {
   id: number;
   title: string;
   category: string;
-  rate: number;
+  rate: RateEmoji;
   detail: string;
 }
 

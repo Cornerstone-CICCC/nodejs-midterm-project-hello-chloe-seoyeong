@@ -1,22 +1,23 @@
 import { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { reviewsState } from "../atom";
+import { isLoggedInState, reviewsState } from "../atom";
 import Review from "../Component/Review";
+import { Link, useNavigate } from "react-router-dom";
 
-const Grid = styled.div`
+const FlexWrap = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;
 
 const AddBox = styled.div`
   justify-self: center;
 `;
 
-const Button = styled.button`
-  padding: 20px;
-`;
-
 function MyList() {
+  let navigate = useNavigate();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+
   const [reviews, setReviews] = useRecoilState(reviewsState);
   useEffect(() => {
     (async () => {
@@ -31,15 +32,16 @@ function MyList() {
       setReviews(data);
     })();
   }, []);
+
   return (
-    <Grid>
+    <FlexWrap>
       <AddBox>
-        <Button>Add Review</Button>
+        <Link to="/review/create">Add Review</Link>
       </AddBox>
       {reviews.map((review) => (
         <Review key={review.id} {...review} />
       ))}
-    </Grid>
+    </FlexWrap>
   );
 }
 

@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BoardBox from "./BoardBox";
 import { motion } from "motion/react";
-import { useRecoilState } from "recoil";
-import { gamelistState, IGameList } from "../atom";
-import { Link } from "react-router-dom";
-import ReviewForm from "../Routes/ReviewForm";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { gamelistState, IGameList, isLoggedInState } from "../atom";
+import { Link, useNavigate } from "react-router-dom";
 
 const BoardBase = styled.div`
   width: 100%;
@@ -16,6 +15,10 @@ const BoardBase = styled.div`
   border-left: 1px solid #000;
   grid-template-columns: repeat(4, 1fr);
   color: #000;
+  @media screen and (max-width: 700px) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 `;
 
 const BoardCenter = styled.div`
@@ -26,6 +29,7 @@ const BoardCenter = styled.div`
   grid-area: 2 / 2 / 4 / 4;
   border-right: 1px solid #000;
   border-bottom: 1px solid #000;
+  width: 100%;
 `;
 
 const RandomBox = styled(motion.div)`
@@ -39,20 +43,38 @@ const BoardCorner = styled.div`
   border-right: 1px solid #000;
   border-bottom: 1px solid #000;
   height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
 const RightTop = styled(BoardCorner)`
   grid-area: 1 / 4 / 2 / 5;
+  @media screen and (max-width: 700px) {
+    width: 30%;
+  }
 `;
 const LeftTop = styled(BoardCorner)`
   grid-area: 1 / 1 / 2 / 2;
+  @media screen and (max-width: 700px) {
+    width: 30%;
+  }
 `;
 const RightBottom = styled(BoardCorner)`
   grid-area: 4 / 4 / 5 / 5;
+  @media screen and (max-width: 700px) {
+    width: 100%;
+  }
 `;
 const LeftBottom = styled(BoardCorner)`
   grid-area: 4 / 1 / 5 / 2;
+  @media screen and (max-width: 700px) {
+    width: 40%;
+  }
 `;
 function GameList() {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+
   const onSuffleGame = () => {};
 
   const [games, setGames] = useRecoilState<IGameList[]>(gamelistState);
@@ -82,12 +104,6 @@ function GameList() {
           {games?.slice(0, 8).map((game) => (
             <BoardBox key={game.gameId} {...game} />
           ))}
-          <LeftTop />
-          <RightTop />
-          <LeftBottom />
-          <RightBottom>
-            <Link to="/review/add">Write Review</Link>
-          </RightBottom>
           <BoardCenter>
             <p>Play?</p>
             <RandomBox
@@ -105,6 +121,34 @@ function GameList() {
             />
             <button onClick={onSuffleGame}>Pick A Game</button>
           </BoardCenter>
+          <RightBottom>
+            {isLoggedIn ? (
+              <>
+                <div>
+                  <p>What did you play?</p>
+                  <Link to="/review/create">Write Review &rarr;</Link>
+                </div>
+                <div>
+                  <p>Wanna see your reviews?</p>
+                  <Link to="/review">View Revies &rarr;</Link>
+                </div>
+              </>
+            ) : (
+              <>
+                <div>
+                  <p>Not a member yet?</p>
+                  <Link to="/join">Join &rarr;</Link>
+                </div>
+                <div>
+                  <p>Are you a member?</p>
+                  <Link to="/login">Login &rarr;</Link>
+                </div>
+              </>
+            )}
+          </RightBottom>
+          <LeftTop>GREETING</LeftTop>
+          <RightTop>AD</RightTop>
+          <LeftBottom>Reccommand</LeftBottom>
         </BoardBase>
       )}
     </>
