@@ -4,7 +4,6 @@ import App from "./App";
 import { RecoilRoot } from "recoil";
 import { createGlobalStyle, ThemeProvider } from "styled-components";
 import { darkTheme } from "./theme";
-import RoutesComp from "./Routes";
 import { BrowserRouter } from "react-router-dom";
 
 const GlobalStyle = createGlobalStyle`

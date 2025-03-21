@@ -5,6 +5,7 @@ import Login from "./Routes/Login";
 import Profile from "./Routes/Profile";
 import MyList from "./Routes/MyList";
 import ReviewForm from "./Routes/ReviewForm";
+import PrivateRoute from "./Routes/PrivateRoute";
 
 function RoutesComp() {
   return (
@@ -12,9 +13,10 @@ function RoutesComp() {
       <Route path="/" element={<Home />} />
       <Route path="join" element={<Join />} />
       <Route path="login" element={<Login />} />
-      <Route path="profile" element={<Profile />} />
-      <Route path="review" element={<MyList />}>
-        <Route path="create" element={<ReviewForm />} />
+      <Route element={<PrivateRoute />}>
+        <Route path="profile" element={<Profile />} />
+        <Route path="review" element={<MyList />} />
+        <Route path="review/create" element={<ReviewForm />} />
       </Route>
     </Routes>
   );

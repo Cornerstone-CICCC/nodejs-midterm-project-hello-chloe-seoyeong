@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { isLoggedInState } from "../atom";
+import { isLoggedInState, userDetailState } from "../atom";
 
 const Nav = styled.div`
   display: flex;
@@ -27,6 +27,7 @@ const Menu = styled.li`
 function Header() {
   let navigate = useNavigate();
   const [isLoggedIn, setLoggedIn] = useRecoilState(isLoggedInState);
+  const setUserDetail = useSetRecoilState(userDetailState);
   const handleLogout = async (event: React.MouseEvent<HTMLButtonElement>) => {
     const res = await fetch("http://localhost:3500/logout", {
       method: "GET",
@@ -34,6 +35,7 @@ function Header() {
     });
     if (!res.ok) return false;
     setLoggedIn(false);
+    setUserDetail({ username: "", firstname: "", lastname: "", password: "" });
     navigate("/");
   };
   return (
