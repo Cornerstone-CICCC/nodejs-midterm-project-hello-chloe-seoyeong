@@ -4,6 +4,8 @@ import BoardBox from "./BoardBox";
 import { motion } from "motion/react";
 import { useRecoilState } from "recoil";
 import { gamelistState, IGameList } from "../atom";
+import { Link } from "react-router-dom";
+import ReviewForm from "../Routes/ReviewForm";
 
 const BoardBase = styled.div`
   width: 100%;
@@ -33,6 +35,23 @@ const RandomBox = styled(motion.div)`
   border-radius: 50%;
 `;
 
+const BoardCorner = styled.div`
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+  height: 200px;
+`;
+const RightTop = styled(BoardCorner)`
+  grid-area: 1 / 4 / 2 / 5;
+`;
+const LeftTop = styled(BoardCorner)`
+  grid-area: 1 / 1 / 2 / 2;
+`;
+const RightBottom = styled(BoardCorner)`
+  grid-area: 4 / 4 / 5 / 5;
+`;
+const LeftBottom = styled(BoardCorner)`
+  grid-area: 4 / 1 / 5 / 2;
+`;
 function GameList() {
   const onSuffleGame = () => {};
 
@@ -41,7 +60,7 @@ function GameList() {
   useEffect(() => {
     (async () => {
       const gamesList = await (
-        await fetch("http://localhost:3500/", {
+        await fetch("http://localhost:3500/gamelist", {
           method: "GET",
           credentials: "include",
         })
@@ -60,9 +79,15 @@ function GameList() {
           {/* {games.map((game) => (
             <Game key={game.gameId} {...game}></Game>
           ))} */}
-          {games?.slice(0, 11).map((game) => (
+          {games?.slice(0, 8).map((game) => (
             <BoardBox key={game.gameId} {...game} />
           ))}
+          <LeftTop />
+          <RightTop />
+          <LeftBottom />
+          <RightBottom>
+            <Link to="/review/add">Write Review</Link>
+          </RightBottom>
           <BoardCenter>
             <p>Play?</p>
             <RandomBox

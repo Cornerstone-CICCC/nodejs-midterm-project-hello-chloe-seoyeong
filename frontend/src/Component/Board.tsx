@@ -54,22 +54,9 @@ function Board() {
 
   return (
     <BoardBase>
-      {games?.map((game) => (
+      {games?.map((game, index) => (
         <BoardBox key={game.gameId} {...game} />
       ))}
-      {/* <BoardBox />
-      <BoardBox />
-      <BoardBox />
-      <BoardBox />
-      <BoardBox />
-      <BoardBox />
-      <BoardBox />
-      <BoardBox />
-      <BoardBox />
-      <BoardBox />
-      <BoardBox />
-      <BoardBox /> */}
-
       <BoardCenter>
         <p>Play?</p>
         <RandomBox
