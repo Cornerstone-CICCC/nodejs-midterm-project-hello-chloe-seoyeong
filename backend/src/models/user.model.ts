@@ -47,6 +47,7 @@ class UserModel {
       (user) => user.username === updates.username
     );
     if (foundIndex === -1) return false;
+
     const user = this.users.find((u) => u.username === updates.username);
     // return user;
     let hashedpassword = undefined;

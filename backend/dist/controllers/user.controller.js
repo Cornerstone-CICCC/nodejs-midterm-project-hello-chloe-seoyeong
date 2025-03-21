@@ -47,8 +47,8 @@ const getEdit = (req, res) => {
     res.status(200).json(user);
 };
 const putEdit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    // const { id } = req.params;
     const { username, password, firstname, lastname } = req.body;
+    console.log(username, firstname, lastname);
     const user = yield user_model_1.default.editUserById({
         username,
         password,

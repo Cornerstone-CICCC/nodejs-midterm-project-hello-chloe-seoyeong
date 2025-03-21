@@ -38,8 +38,8 @@ const getEdit = (req: Request<{ username: string }>, res: Response) => {
 };
 
 const putEdit = async (req: Request<{}, {}, Partial<IUser>>, res: Response) => {
-  // const { id } = req.params;
   const { username, password, firstname, lastname } = req.body;
+  console.log(username, firstname, lastname);
   const user = await userModel.editUserById({
     username,
     password,
