@@ -13,8 +13,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const review_model_1 = __importDefault(require("../models/review.model"));
+const boardGameList = [
+    {
+        id: "1",
+        title: "Azul",
+        detail: "blahdlkfajsdlkf",
+        category: "party",
+        rate: 4,
+    },
+    {
+        id: "2",
+        title: "Dixic",
+        detail: "blahdlkfajsdlkf",
+        category: "family",
+        rate: 5,
+    },
+    {
+        id: "3",
+        title: "Splender",
+        detail: "blahdlkfajsdlkf",
+        category: "quiz",
+        rate: 3.7,
+    },
+];
 const getAllReviews = (req, res) => {
-    const reviews = review_model_1.default.getAllReviews();
+    // const reviews = reviewModel.getAllReviews();
+    const reviews = boardGameList;
     if (!reviews) {
         res.status(400).json({
             message: "No Review.",
@@ -35,9 +59,11 @@ const getReviewById = (req, res) => {
     res.status(200).json(review);
 };
 const createReview = (req, res) => {
-    const { title, category } = req.body;
+    const { title, category, detail, rate } = req.body;
     const review = review_model_1.default.createReview({
         title,
+        detail,
+        rate,
         category,
     });
     if (!review) {

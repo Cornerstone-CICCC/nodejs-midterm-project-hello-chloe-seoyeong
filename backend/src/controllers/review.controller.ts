@@ -3,8 +3,33 @@ import reviewModel from "../models/review.model";
 import { IUser } from "../types/user";
 import { IBoardGameReview } from "../types/game";
 
+const boardGameList: IBoardGameReview[] = [
+  {
+    id: "1",
+    title: "Azul",
+    detail: "blahdlkfajsdlkf",
+    category: "party",
+    rate: 4,
+  },
+  {
+    id: "2",
+    title: "Dixic",
+    detail: "blahdlkfajsdlkf",
+    category: "family",
+    rate: 5,
+  },
+  {
+    id: "3",
+    title: "Splender",
+    detail: "blahdlkfajsdlkf",
+    category: "quiz",
+    rate: 3.7,
+  },
+];
+
 const getAllReviews = (req: Request, res: Response) => {
-  const reviews = reviewModel.getAllReviews();
+  // const reviews = reviewModel.getAllReviews();
+  const reviews = boardGameList;
   if (!reviews) {
     res.status(400).json({
       message: "No Review.",
@@ -33,9 +58,11 @@ const createReview = (
   req: Request<{}, {}, Omit<IBoardGameReview, "id">>,
   res: Response
 ) => {
-  const { title, category } = req.body;
+  const { title, category, detail, rate } = req.body;
   const review = reviewModel.createReview({
     title,
+    detail,
+    rate,
     category,
   });
   if (!review) {

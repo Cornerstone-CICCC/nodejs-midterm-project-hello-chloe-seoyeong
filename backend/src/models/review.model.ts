@@ -14,11 +14,13 @@ class BoardGame {
     return review;
   }
   createReview(review: Omit<IBoardGameReview, "id">) {
-    const { title, category } = review;
+    const { title, category, rate, detail } = review;
     const newReview = {
       id: uuidv4(),
       title,
       category,
+      rate,
+      detail,
     };
     this.boardGamesReviews.push(newReview);
     return newReview;

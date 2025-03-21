@@ -9,18 +9,19 @@ const getAllUsers = (req: Request, res: Response) => {
 
 const getUser = (req: Request, res: Response) => {
   if (!req.session || !req.session.username) {
-    res.status(403).json({ message: "Forbidden" });
+    res.status(403).json({ message: "Forbidden", authCheck: false });
     return;
   }
   if (req.session && req.session.username) {
     const user = userModel.getUserByUsername(req.session.username);
     if (!user) {
       res.status(404).json({
+        authCheck: false,
         message: "User does not exist!",
       });
       return;
     }
-    res.status(200).json(user);
+    res.status(200).json({ user, authCheck: true });
     // return user;
   }
 };

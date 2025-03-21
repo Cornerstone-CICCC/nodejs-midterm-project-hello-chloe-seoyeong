@@ -26,11 +26,13 @@ class BoardGame {
         return review;
     }
     createReview(review) {
-        const { title, category } = review;
+        const { title, category, rate, detail } = review;
         const newReview = {
             id: (0, uuid_1.v4)(),
             title,
             category,
+            rate,
+            detail,
         };
         this.boardGamesReviews.push(newReview);
         return newReview;
