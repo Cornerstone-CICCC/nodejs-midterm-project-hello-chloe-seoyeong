@@ -31,9 +31,11 @@ export interface IGameList {
 }
 
 export interface IReviewList {
-  id: string;
+  id: number;
   title: string;
   category: string;
+  rate: number;
+  detail: string;
 }
 
 export const userState = atom<IUserInfo>({

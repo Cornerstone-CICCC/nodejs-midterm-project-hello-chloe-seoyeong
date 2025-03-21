@@ -4,20 +4,53 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { isLoggedInState, userState } from "../atom";
 
-interface ILoginForm {
-  username: string;
-  password: string;
-}
-
+const FormCard = styled.div`
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  border-radius: 30px;
+  padding: 30px;
+  margin: 20px;
+  background-color: #fff;
+  max-width: 400px;
+  margin: 0 auto;
+  color: #191919;
+`;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 16px;
 `;
 
+const Label = styled.label`
+  margin-bottom: 10px;
+  span {
+    font-size: 12px;
+    display: block;
+  }
+`;
+
+const Input = styled.input`
+  font-size: 16px;
+  padding: 8px;
+  width: 100%;
+`;
+
+const Button = styled.button`
+  padding: 10px;
+  width: 50%;
+  font-weight: bold;
+  background-color: #007ddd;
+  color: #fff;
+  border: 0;
+`;
+
+interface ILoginForm {
+  username: string;
+  password: string;
+}
+
 function Login() {
   const setUserState = useSetRecoilState(userState);
-  const [isLoggedIn, setLoggedIn] = useRecoilState(isLoggedInState);
+  const setLoggedIn = useSetRecoilState(isLoggedInState);
 
   let navigate = useNavigate();
   const { register, handleSubmit, setValue } = useForm<ILoginForm>();
@@ -40,19 +73,27 @@ function Login() {
     navigate("/");
   };
   return (
-    <Form onSubmit={handleSubmit(onValid)}>
-      <input
-        {...register("username", { required: "User name is required." })}
-        type="text"
-        name="username"
-      />
-      <input
-        {...register("password", { required: "Password is required." })}
-        type="password"
-        name="password"
-      />
-      <button>Log in</button>
-    </Form>
+    <FormCard>
+      <Form onSubmit={handleSubmit(onValid)}>
+        <Label>
+          <span>Username</span>
+          <Input
+            {...register("username", { required: "User name is required." })}
+            type="text"
+            name="username"
+          />
+        </Label>
+        <Label>
+          <span>Password</span>
+          <Input
+            {...register("password", { required: "Password is required." })}
+            type="password"
+            name="password"
+          />
+        </Label>
+        <Button>Log in</Button>
+      </Form>
+    </FormCard>
   );
 }
 
