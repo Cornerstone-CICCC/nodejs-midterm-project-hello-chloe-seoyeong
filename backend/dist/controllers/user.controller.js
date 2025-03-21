@@ -63,18 +63,9 @@ const putEdit = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     res.status(200).json(user);
 });
-const checkAuth = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (req.session && req.session.username) {
-        res.json({ authChecked: true });
-    }
-    else {
-        res.json({ authChecked: false });
-    }
-});
 exports.default = {
     getAllUsers,
     getUser,
     getEdit,
     putEdit,
-    checkAuth,
 };

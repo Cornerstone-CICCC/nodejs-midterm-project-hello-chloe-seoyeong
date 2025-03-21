@@ -1,7 +1,9 @@
 export interface IBoardGameReview {
   id: string;
   title: string;
+  rate: number;
   category: string;
+  detail: string;
 }
 
 export interface IBoardGame {
