@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+// In-memory Games
 const boardGameList = [
     {
         gameId: 414317,
@@ -63,6 +64,13 @@ const getInMemoryGame = (req, res) => {
     const data = boardGameList;
     res.status(200).json(data);
 };
+/**
+ * Get all games list
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {void} Return games list
+ */
 const getGameList = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const data = yield fetch("https://bgg-json.azurewebsites.net/hot");

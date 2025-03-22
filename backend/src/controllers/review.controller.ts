@@ -3,33 +3,15 @@ import reviewModel from "../models/review.model";
 import { IUser } from "../types/user";
 import { IBoardGameReview } from "../types/game";
 
-const boardGameList: IBoardGameReview[] = [
-  {
-    id: "1",
-    title: "Azul",
-    detail: "blahdlkfajsdlkf",
-    category: "party",
-    rate: 4,
-  },
-  {
-    id: "2",
-    title: "Dixic",
-    detail: "blahdlkfajsdlkf",
-    category: "family",
-    rate: 5,
-  },
-  {
-    id: "3",
-    title: "Splender",
-    detail: "blahdlkfajsdlkf",
-    category: "quiz",
-    rate: 3.7,
-  },
-];
-
+/**
+ * Get all reviews
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {void} Return all reviews
+ */
 const getAllReviews = (req: Request, res: Response) => {
   const reviews = reviewModel.getAllReviews();
-  // const reviews = boardGameList;
+
   if (!reviews) {
     res.status(400).json({
       message: "No Review.",
@@ -39,6 +21,12 @@ const getAllReviews = (req: Request, res: Response) => {
   res.status(200).json(reviews);
 };
 
+/**
+ *
+ * @param {Request<{id: string }, {}, Partial<IUser> >} req
+ * @param {Response} res
+ * @returns {void} Return review got by id
+ */
 const getReviewById = (
   req: Request<{ id: string }, {}, Partial<IUser>>,
   res: Response

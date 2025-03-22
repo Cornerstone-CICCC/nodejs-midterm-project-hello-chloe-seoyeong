@@ -58,7 +58,7 @@ const postJoin = async (
  *
  * @param {Request} req
  * @param {Response} res
- * @returns {void} Render home page
+ * @returns {void} Return logged in user
  */
 const postLogin = async (
   req: Request<{}, {}, Omit<IUser, "id">>,

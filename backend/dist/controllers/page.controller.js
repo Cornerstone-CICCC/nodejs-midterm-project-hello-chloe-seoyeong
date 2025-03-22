@@ -63,7 +63,7 @@ const postJoin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
  *
  * @param {Request} req
  * @param {Response} res
- * @returns {void} Render home page
+ * @returns {void} Return logged in user
  */
 const postLogin = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username, password } = req.body;

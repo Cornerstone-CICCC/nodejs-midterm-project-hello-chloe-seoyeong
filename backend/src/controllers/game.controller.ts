@@ -1,12 +1,7 @@
 import { Request, Response } from "express";
 import { IBoardGame } from "../types/game";
 
-interface IBoardGameList {
-  title: string;
-  description: string;
-  category: string;
-}
-
+// In-memory Games
 const boardGameList: IBoardGame[] = [
   {
     gameId: 414317,
@@ -71,6 +66,13 @@ const getInMemoryGame = (req: Request, res: Response) => {
   res.status(200).json(data);
 };
 
+/**
+ * Get all games list
+ *
+ * @param {Request} req
+ * @param {Response} res
+ * @returns {void} Return games list
+ */
 const getGameList = async (req: Request, res: Response) => {
   try {
     const data = await fetch("https://bgg-json.azurewebsites.net/hot");
