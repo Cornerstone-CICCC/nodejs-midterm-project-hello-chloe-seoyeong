@@ -7,24 +7,33 @@ import { useNavigate } from "react-router-dom";
 import { fetchGetUser } from "../fetcher";
 import ProfileCard from "../Component/ProfileCard";
 
+const MainWrap = styled.div`
+  display: grid;
+  place-items: center;
+  height: calc(100vh - 100px);
+`;
 const FormCard = styled.div`
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
   border-radius: 30px;
-  padding: 30px;
-  margin: 20px;
+  padding: 10px;
   background-color: #fff;
   max-width: 400px;
   margin: 0 auto;
+  margin-top: -100px;
   color: #191919;
+  font-family: "Prompt", "sans-serif";
 `;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  padding: 30px 20px;
 `;
 
 const Label = styled.label`
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  margin-top: 16px;
   span {
     font-size: 12px;
     display: block;
@@ -33,18 +42,25 @@ const Label = styled.label`
 
 const Input = styled.input`
   font-size: 16px;
-  padding: 8px;
-  width: 100%;
+  padding: 8px 8px 8px 0;
+  width: 220px;
+  border: 0;
+  border-bottom: 1px solid #000;
+  margin-top: 8px;
+  font-family: "Prompt", "sans-serif";
 `;
 
 const Button = styled.button`
-  padding: 10px;
-  width: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   font-weight: bold;
   background-color: #007ddd;
   color: #fff;
   border: 0;
+  place-self: end;
 `;
+
 function Profile() {
   let navigate = useNavigate();
   const isLoggedIn = useRecoilValue(isLoggedInState);
@@ -91,12 +107,13 @@ function Profile() {
   }, [isLoggedIn]);
   if (userDetail) {
     setValue("username", userDetail.username);
+    setValue("password", userDetail.password);
     setValue("firstname", userDetail.firstname);
     setValue("lastname", userDetail.lastname);
   }
 
   return (
-    <>
+    <MainWrap>
       {isEdit ? (
         <FormCard>
           <Form method="PUT" onSubmit={handleSubmit(onValid)}>
@@ -145,7 +162,7 @@ function Profile() {
           <Button onClick={onEdit}>Edit</Button>
         </div>
       )}
-    </>
+    </MainWrap>
   );
 }
 

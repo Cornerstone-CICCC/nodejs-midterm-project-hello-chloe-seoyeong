@@ -13,6 +13,7 @@ function PrivateRoute() {
       setLoggedIn(user.authCheck);
       setUserDetail(user.user);
     })();
+
     if (!isLoggedIn) {
       setLoggedIn(false);
       setUserDetail({

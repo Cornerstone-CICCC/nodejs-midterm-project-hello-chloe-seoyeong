@@ -4,7 +4,7 @@
 /login GET/POST
 /join GET/POST
 
-/games
+/
 
 <!-- /boardgames - GET boardgames (Browse)
 /boardgames/:id - GET review (Read)

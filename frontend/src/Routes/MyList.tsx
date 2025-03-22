@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { isLoggedInState, reviewsState } from "../atom";
 import Review from "../Component/Review";
 import { Link, useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 
 const FlexWrap = styled.div`
   display: flex;
@@ -13,8 +14,10 @@ const FlexWrap = styled.div`
 const AddBox = styled.div`
   justify-self: center;
 `;
+const ReviewBox = styled(motion.div)``;
 
 function MyList() {
+  const constraintsRef = useRef<HTMLDivElement>(null);
   let navigate = useNavigate();
   const isLoggedIn = useRecoilValue(isLoggedInState);
 
@@ -38,9 +41,11 @@ function MyList() {
       <AddBox>
         <Link to="/review/create">Add Review</Link>
       </AddBox>
-      {reviews.map((review) => (
-        <Review key={review.id} {...review} />
-      ))}
+      <ReviewBox ref={constraintsRef}>
+        {reviews.map((review) => (
+          <Review key={review.id} {...review} />
+        ))}
+      </ReviewBox>
     </FlexWrap>
   );
 }

@@ -4,24 +4,33 @@ import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { isLoggedInState, userState } from "../atom";
 
+const MainWrap = styled.div`
+  display: grid;
+  place-items: center;
+  height: calc(100vh - 100px);
+`;
 const FormCard = styled.div`
-  border: 1px solid rgba(0, 0, 0, 0.8);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
   border-radius: 30px;
-  padding: 30px;
-  margin: 20px;
+  padding: 10px;
   background-color: #fff;
   max-width: 400px;
   margin: 0 auto;
+  margin-top: -100px;
   color: #191919;
+  font-family: "Prompt", "sans-serif";
 `;
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  border-radius: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  padding: 30px 20px;
 `;
 
 const Label = styled.label`
-  margin-bottom: 10px;
+  margin-bottom: 6px;
+  margin-top: 16px;
   span {
     font-size: 12px;
     display: block;
@@ -30,17 +39,28 @@ const Label = styled.label`
 
 const Input = styled.input`
   font-size: 16px;
-  padding: 8px;
-  width: 100%;
+  padding: 8px 8px 8px 0;
+  width: 220px;
+  border: 0;
+  border-bottom: 1px solid #000;
+  margin-top: 8px;
 `;
 
 const Button = styled.button`
-  padding: 10px;
-  width: 50%;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
   font-weight: bold;
   background-color: #007ddd;
   color: #fff;
   border: 0;
+  place-self: end;
+`;
+
+const ErrorMessage = styled.p`
+  font-size: 13px;
+  color: tomato;
+  height: 16px;
 `;
 
 interface ILoginForm {
@@ -53,7 +73,13 @@ function Login() {
   const setLoggedIn = useSetRecoilState(isLoggedInState);
 
   let navigate = useNavigate();
-  const { register, handleSubmit, setValue } = useForm<ILoginForm>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    setError,
+  } = useForm<ILoginForm>();
   const onValid = async (data: ILoginForm) => {
     const res = await fetch("http://localhost:3500/login", {
       method: "POST",
@@ -73,27 +99,37 @@ function Login() {
     navigate("/");
   };
   return (
-    <FormCard>
-      <Form onSubmit={handleSubmit(onValid)}>
-        <Label>
-          <span>Username</span>
-          <Input
-            {...register("username", { required: "User name is required." })}
-            type="text"
-            name="username"
-          />
-        </Label>
-        <Label>
-          <span>Password</span>
-          <Input
-            {...register("password", { required: "Password is required." })}
-            type="password"
-            name="password"
-          />
-        </Label>
-        <Button>Log in</Button>
-      </Form>
-    </FormCard>
+    <MainWrap>
+      <FormCard>
+        <Form onSubmit={handleSubmit(onValid)}>
+          <Label>
+            <span>Username</span>
+            <Input
+              {...register("username", { required: "User name is required." })}
+              type="text"
+              name="username"
+            />
+          </Label>
+          <ErrorMessage>{errors?.username?.message}</ErrorMessage>
+          <Label>
+            <span>Password</span>
+            <Input
+              {...register("password", {
+                required: "Password is required.",
+                minLength: {
+                  value: 5,
+                  message: "Your password is too short.",
+                },
+              })}
+              type="password"
+              name="password"
+            />
+          </Label>
+          <ErrorMessage>{errors?.password?.message}</ErrorMessage>
+          <Button>Log in</Button>
+        </Form>
+      </FormCard>
+    </MainWrap>
   );
 }
 

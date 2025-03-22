@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BoardBox from "./BoardBox";
-import { motion } from "motion/react";
+import { motion, useAnimationControls } from "motion/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { gamelistState, IGameList, isLoggedInState } from "../atom";
 import { Link } from "react-router-dom";
@@ -93,10 +93,27 @@ const LeftBottom = styled(BoardCorner)`
     width: 40%;
   }
 `;
+
+const controlVariants = {
+  hidden: {
+    opacity: 0,
+    x: "100vw",
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { type: "spring", delay: 0.1 },
+  },
+  exit: {
+    x: "-100vh",
+    transition: { ease: "easeInOut" },
+  },
+};
 function GameList() {
   const isLoggedIn = useRecoilValue(isLoggedInState);
 
   const onSuffleGame = () => {};
+  const controls = useAnimationControls();
 
   const [games, setGames] = useRecoilState<IGameList[]>(gamelistState);
   const [isLoading, setLoading] = useState(true);
@@ -128,19 +145,14 @@ function GameList() {
           <BoardCenter>
             <p>Play?</p>
             <RandomBox
-              animate={{
-                scale: [1, 2, 2, 1, 1],
-                rotate: [0, 0, 180, 180, 0],
-                borderRadius: ["0%", "0%", "50%", "50%", "0%"],
-              }}
-              transition={{
-                duration: 2,
-                ease: "easeInOut",
-                times: [0, 0.2, 0.5, 0.8, 1],
-                repeatDelay: 1,
-              }}
+              variants={controlVariants}
+              initial="hidden"
+              animate={controls}
+              exit="exit"
             />
-            <button onClick={onSuffleGame}>Pick A Game</button>
+            <button onClick={() => controls.start("visible")}>
+              Pick A Game
+            </button>
           </BoardCenter>
           <RightBottom>
             {isLoggedIn ? (

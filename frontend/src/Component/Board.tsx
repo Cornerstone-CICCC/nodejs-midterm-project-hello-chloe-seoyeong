@@ -1,11 +1,11 @@
 import styled from "styled-components";
-import { motion } from "motion/react";
+import { motion, Variants } from "motion/react";
 import { useEffect } from "react";
 import BoardBox from "./BoardBox";
 import { useRecoilState } from "recoil";
 import { gamelistState } from "../atom";
 
-const BoardBase = styled.div`
+const BoardBase = styled(motion.div)`
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 1);
@@ -33,6 +33,19 @@ const RandomBox = styled(motion.div)`
   border-radius: 50%;
 `;
 
+const BoardBoxVariante: Variants = {
+  start: { opacity: 0 },
+  end: {
+    opacity: 1,
+    transition: {
+      type: "spring",
+      duration: 0.5,
+      bounce: 0.5,
+      delayChildren: 2, // 자식들의 애니메이션 시작 늦추기
+      staggerChildren: 0.2, // 자식들이 여러개면 순서대로 딜레이
+    },
+  },
+};
 function Board() {
   const onSuffleGame = () => {};
 
@@ -53,7 +66,7 @@ function Board() {
   }, []);
 
   return (
-    <BoardBase>
+    <BoardBase variants={BoardBoxVariante} initial="start" animate="end">
       {games?.map((game, index) => (
         <BoardBox key={game.gameId} {...game} />
       ))}
