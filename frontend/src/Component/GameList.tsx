@@ -4,7 +4,8 @@ import BoardBox from "./BoardBox";
 import { motion } from "motion/react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { gamelistState, IGameList, isLoggedInState } from "../atom";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import imageAd from "../assets/images/img-ad.png";
 
 const BoardBase = styled.div`
   width: 100%;
@@ -46,10 +47,28 @@ const BoardCorner = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  /* object-fit: contain;
+  width: 100%;
+  img {
+    width: 100%;
+  } */
 `;
 
 const RightTop = styled(BoardCorner)`
   grid-area: 1 / 4 / 2 / 5;
+  /* background-color: rgba(0, 0, 0, 0.3);
+  position: relative;
+  span {
+    padding: 4px 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 11px;
+    border-radius: 8px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  } */
   @media screen and (max-width: 700px) {
     width: 30%;
   }
@@ -62,6 +81,8 @@ const LeftTop = styled(BoardCorner)`
 `;
 const RightBottom = styled(BoardCorner)`
   grid-area: 4 / 4 / 5 / 5;
+  flex-direction: column;
+  gap: 20px;
   @media screen and (max-width: 700px) {
     width: 100%;
   }
@@ -147,7 +168,10 @@ function GameList() {
             )}
           </RightBottom>
           <LeftTop>GREETING</LeftTop>
-          <RightTop>AD</RightTop>
+          <RightTop>
+            <img src={imageAd} alt="" />
+            <span>AD</span>
+          </RightTop>
           <LeftBottom>Reccommand</LeftBottom>
         </BoardBase>
       )}
