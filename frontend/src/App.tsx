@@ -12,7 +12,7 @@ const Container = styled.div`
   padding: 24px;
 `;
 const Main = styled.main`
-  height: calc(100% - 100px);
+  height: calc(100vh - 100px);
   display: grid;
 `;
 function App() {

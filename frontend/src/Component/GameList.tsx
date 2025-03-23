@@ -12,8 +12,8 @@ const BoardBase = styled.div`
   height: 100%;
   background-color: rgba(255, 255, 255, 1);
   display: grid;
-  border-top: 1px solid #000;
-  border-left: 1px solid #000;
+  border-top: 2px solid #2c2d2d;
+  border-left: 2px solid #2c2d2d;
   grid-template-columns: repeat(4, 1fr);
   color: #000;
   @media screen and (max-width: 700px) {
@@ -28,8 +28,8 @@ const BoardCenter = styled.div`
   align-items: center;
   flex-direction: column;
   grid-area: 2 / 2 / 4 / 4;
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
+  border-right: 2px solid #2c2d2d;
+  border-bottom: 2px solid #2c2d2d;
   width: 100%;
 `;
 
@@ -41,8 +41,8 @@ const RandomBox = styled(motion.div)`
 `;
 
 const BoardCorner = styled.div`
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
+  border-right: 2px solid #2c2d2d;
+  border-bottom: 2px solid #2c2d2d;
   height: 200px;
   display: flex;
   justify-content: center;

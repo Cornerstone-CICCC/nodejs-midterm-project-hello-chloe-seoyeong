@@ -3,8 +3,8 @@ import { IGameList } from "../atom";
 import { motion } from "motion/react";
 
 const Board = styled(motion.div)`
-  border-right: 1px solid #000;
-  border-bottom: 1px solid #000;
+  border-right: 2px solid #2c2d2d;
+  border-bottom: 2px solid #2c2d2d;
   height: 200px;
   position: relative;
   overflow: hidden;
@@ -13,6 +13,7 @@ const Board = styled(motion.div)`
     padding-bottom: 30px;
     .mark {
       bottom: 0;
+      border-top: 2px solid #2c2d2d;
     }
   }
   &:nth-child(3),
@@ -22,7 +23,8 @@ const Board = styled(motion.div)`
       width: 20px;
       right: 0;
       height: 100%;
-      background: rgb(0, 172, 14);
+      background: rgb(54, 163, 119);
+      border-left: 2px solid #2c2d2d;
     }
   }
   &:nth-child(4),
@@ -32,7 +34,8 @@ const Board = styled(motion.div)`
       width: 20px;
       left: 0;
       height: 100%;
-      background: rgb(172, 5, 255);
+      background: rgb(15, 100, 166);
+      padding-right: 2px solid #2c2d2d;
     }
   }
   &:nth-child(7),
@@ -41,7 +44,8 @@ const Board = styled(motion.div)`
     .mark {
       top: 0;
       height: 20px;
-      background: rgb(7, 65, 255);
+      background: rgb(156, 197, 235);
+      border-bottom: 2px solid #2c2d2d;
     }
   }
   @media screen and (max-width: 700px) {
@@ -53,7 +57,7 @@ const Board = styled(motion.div)`
     &:nth-child(6),
     &:nth-child(7),
     &:nth-child(8) {
-      width: 33.3%;
+      width: 50%;
       .mark {
         /* top: 0;
         bottom: unset;
@@ -70,7 +74,7 @@ const Board = styled(motion.div)`
 const Mark = styled.div`
   width: 100%;
   height: 20px;
-  background: rgb(255, 62, 19);
+  background: rgb(238, 95, 60);
   /* background: linear-gradient(
     126deg,
     rgba(255, 133, 105, 1) 0%,
@@ -99,14 +103,14 @@ const Category = styled.span`
 `;
 
 const Img = styled.div`
-  background-position: center;
+  /* background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0; */
 `;
 
 function BoardBox({ gameId, name, thumbnail, yearPublished }: IGameList) {

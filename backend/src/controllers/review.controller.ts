@@ -66,7 +66,7 @@ const createReview = (
 
 const deleteReview = (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
-  const deleted = reviewModel.deleteReview(id);
+  const deleted = reviewModel.deleteReview(id); // Returns reviews after deleting review by id from model.
   if (!deleted) {
     res.status(400).json({
       message: "Fail to delete",

@@ -99,12 +99,12 @@ function Profile() {
     }
   };
 
-  useEffect(() => {
-    (async () => {
-      const user = await fetchGetUser();
-      setUserDetail(user.user);
-    })();
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   (async () => {
+  //     const user = await fetchGetUser();
+  //     setUserDetail(user.user);
+  //   })();
+  // }, [isLoggedIn]);
   if (userDetail) {
     setValue("username", userDetail.username);
     setValue("password", userDetail.password);
