@@ -71,9 +71,7 @@ ul, ol, li {
   list-style: none;
 }
 body {
-  /* background: rgb(161,159,159);
-  background: linear-gradient(126deg, rgba(161,159,159,1) 0%, rgba(13,99,163,1) 46%, rgba(162,162,162,1) 100%); */
-  background-color: #F8EFED;
+  background-color: #F9EEEE;
   width: 100vw;
   height: 100vh;
   color: #fff;

@@ -10,10 +10,17 @@ const Container = styled.div`
   width: 100%;
   height: 100%;
   padding: 24px;
+  @media screen and (max-width: 700px) {
+    padding: 16px;
+  }
 `;
 const Main = styled.main`
-  height: calc(100vh - 100px);
+  /* height: calc(100vh - 110px); */
+  width: 100%;
   display: grid;
+  @media screen and (max-width: 700px) {
+    display: block;
+  }
 `;
 function App() {
   const [isLoggedIn, setLoggedIn] = useRecoilState(isLoggedInState);
@@ -26,15 +33,6 @@ function App() {
       setUserDetail(user.user);
     })();
   }, []);
-
-  if (!isLoggedIn) {
-    // (async () => {
-    //   await fetch("http://localhost:3500/logout", {
-    //     method: "GET",
-    //     credentials: "include",
-    //   });
-    // })();
-  }
 
   return (
     <Container>

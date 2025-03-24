@@ -6,17 +6,20 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { gamelistState, IGameList, isLoggedInState } from "../atom";
 import { Link } from "react-router-dom";
 import imageAd from "../assets/images/img-ad.png";
+import imageAd2 from "../assets/images/img-ad2.webp";
+import { LinkButton, Button } from "../assets/styled/StyledForm";
 
 const BoardBase = styled.div`
   width: 100%;
   height: 100%;
   background-color: rgba(255, 255, 255, 1);
   display: grid;
-  border-top: 2px solid #2c2d2d;
-  border-left: 2px solid #2c2d2d;
+  border-top: 2px solid #2d2d2d;
+  border-left: 2px solid #2d2d2d;
   grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   color: #000;
-  @media screen and (max-width: 700px) {
+  @media screen and (max-width: 900px) {
     display: flex;
     flex-wrap: wrap;
   }
@@ -28,9 +31,12 @@ const BoardCenter = styled.div`
   align-items: center;
   flex-direction: column;
   grid-area: 2 / 2 / 4 / 4;
-  border-right: 2px solid #2c2d2d;
-  border-bottom: 2px solid #2c2d2d;
+  border-right: 2px solid #2d2d2d;
+  border-bottom: 2px solid #2d2d2d;
   width: 100%;
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
 `;
 
 const RandomBox = styled(motion.div)`
@@ -41,41 +47,40 @@ const RandomBox = styled(motion.div)`
 `;
 
 const BoardCorner = styled.div`
-  border-right: 2px solid #2c2d2d;
-  border-bottom: 2px solid #2c2d2d;
-  height: 200px;
+  border-right: 2px solid #2d2d2d;
+  border-bottom: 2px solid #2d2d2d;
+  min-height: 200px;
+  max-height: 220px;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  /* object-fit: contain;
-  width: 100%;
-  img {
-    width: 100%;
-  } */
 `;
 
 const RightTop = styled(BoardCorner)`
   grid-area: 1 / 4 / 2 / 5;
-  /* background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
   position: relative;
   span {
     padding: 4px 8px;
-    background-color: rgba(0, 0, 0, 0.5);
+    border: 2px solid #fff;
     color: #fff;
     font-size: 11px;
-    border-radius: 8px;
     position: absolute;
     right: 10px;
     top: 10px;
-  } */
-  @media screen and (max-width: 700px) {
+  }
+  img {
+    width: 100%;
+  }
+  @media screen and (max-width: 900px) {
     width: 30%;
   }
 `;
 const LeftTop = styled(BoardCorner)`
   grid-area: 1 / 1 / 2 / 2;
-  @media screen and (max-width: 700px) {
+  text-align: center;
+  @media screen and (max-width: 900px) {
     width: 30%;
   }
 `;
@@ -83,14 +88,39 @@ const RightBottom = styled(BoardCorner)`
   grid-area: 4 / 4 / 5 / 5;
   flex-direction: column;
   gap: 20px;
-  @media screen and (max-width: 700px) {
+  align-items: start;
+  padding: 20px;
+  @media screen and (max-width: 900px) {
+    width: 33.33%;
+  }
+  @media screen and (max-width: 600px) {
     width: 100%;
   }
 `;
 const LeftBottom = styled(BoardCorner)`
   grid-area: 4 / 1 / 5 / 2;
-  @media screen and (max-width: 700px) {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: relative;
+  span {
+    padding: 4px 8px;
+    border: 2px solid #fff;
+    color: #fff;
+    font-size: 11px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+  img {
+    width: 100%;
+  }
+  @media screen and (max-width: 900px) {
     width: 40%;
+  }
+`;
+
+const CornerInner = styled.div`
+  p {
+    margin-bottom: 8px;
   }
 `;
 
@@ -110,13 +140,12 @@ const controlVariants = {
   },
 };
 function GameList() {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
-
-  const onSuffleGame = () => {};
   const controls = useAnimationControls();
 
+  const isLoggedIn = useRecoilValue(isLoggedInState);
   const [games, setGames] = useRecoilState<IGameList[]>(gamelistState);
   const [isLoading, setLoading] = useState(true);
+
   useEffect(() => {
     (async () => {
       const gamesList = await (
@@ -136,9 +165,6 @@ function GameList() {
         <span>Loading...</span>
       ) : (
         <BoardBase>
-          {/* {games.map((game) => (
-            <Game key={game.gameId} {...game}></Game>
-          ))} */}
           {games?.slice(0, 8).map((game) => (
             <BoardBox key={game.gameId} {...game} />
           ))}
@@ -150,41 +176,52 @@ function GameList() {
               animate={controls}
               exit="exit"
             />
-            <button onClick={() => controls.start("visible")}>
+            <Button onClick={() => controls.start("visible")}>
               Pick A Game
-            </button>
+            </Button>
           </BoardCenter>
           <RightBottom>
             {isLoggedIn ? (
               <>
-                <div>
+                <CornerInner>
                   <p>What did you play?</p>
-                  <Link to="/review/create">Write Review &rarr;</Link>
-                </div>
-                <div>
+                  <LinkButton>
+                    <Link to="/review/create">Write Review &rarr;</Link>
+                  </LinkButton>
+                </CornerInner>
+                <CornerInner>
                   <p>Wanna see your reviews?</p>
-                  <Link to="/review">View Revies &rarr;</Link>
-                </div>
+                  <LinkButton>
+                    <Link to="/review">View Revies &rarr;</Link>
+                  </LinkButton>
+                </CornerInner>
               </>
             ) : (
               <>
-                <div>
+                <CornerInner>
                   <p>Not a member yet?</p>
-                  <Link to="/join">Join &rarr;</Link>
-                </div>
-                <div>
+                  <LinkButton>
+                    <Link to="/join">Join &rarr;</Link>
+                  </LinkButton>
+                </CornerInner>
+                <CornerInner>
                   <p>Are you a member?</p>
-                  <Link to="/login">Login &rarr;</Link>
-                </div>
+                  <LinkButton>
+                    <Link to="/login">Login &rarr;</Link>
+                  </LinkButton>
+                </CornerInner>
               </>
             )}
           </RightBottom>
-          <LeftTop>GREETING</LeftTop>
+          <LeftTop>WELCOME TO BOARDGAME WORLD</LeftTop>
           <RightTop>
             <img src={imageAd} alt="" />
             <span>AD</span>
           </RightTop>
-          <LeftBottom>Reccommand</LeftBottom>
+          <LeftBottom>
+            <img src={imageAd2} alt="" />
+            <span>AD</span>
+          </LeftBottom>
         </BoardBase>
       )}
     </>

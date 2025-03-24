@@ -19,18 +19,6 @@ export interface IUserDetail {
   lastname: string;
 }
 
-interface IWishList {
-  id: number;
-  name: string;
-  thumbnail: string;
-}
-
-// export interface IGameList {
-//   title: string;
-//   description: string;
-//   category: string;
-// }
-
 export interface IGameList {
   gameId: number;
   name: string;
@@ -51,11 +39,6 @@ export const userState = atom<IUserInfo>({
   default: undefined,
 });
 
-export const wishState = atom<IWishList[]>({
-  key: "wishState",
-  default: [],
-});
-
 export const reviewsState = atom<IReviewList[]>({
   key: "reviewsState",
   default: [],
@@ -72,6 +55,6 @@ export const gamelistState = atom<IGameList[]>({
 });
 
 export const userDetailState = atom<IUserDetail>({
-  key: "userDtailState",
+  key: "userDetailState",
   default: undefined,
 });

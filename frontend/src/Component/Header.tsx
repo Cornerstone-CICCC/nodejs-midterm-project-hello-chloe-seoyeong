@@ -6,8 +6,17 @@ import { isLoggedInState, userDetailState } from "../atom";
 const Nav = styled.div`
   display: flex;
   justify-content: space-between;
-  border: 2px solid #2c2d2d;
-  margin-bottom: 10px;
+  border: 2px solid #2d2d2d;
+  margin-bottom: 24px;
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+    .leftColumn {
+    }
+    .rightColumn {
+      justify-content: end;
+      border-top: 2px solid #2d2d2d;
+    }
+  }
 `;
 
 const Col = styled.div`
@@ -21,8 +30,8 @@ const Menus = styled.ul`
 const Menu = styled.li`
   font-size: 15px;
   padding: 8px;
-  border-right: 2px solid #2c2d2d;
-  color: #2c2d2d;
+  border-right: 2px solid #2d2d2d;
+  color: #2d2d2d;
   font-weight: 700;
   font-size: 14px;
   a {
@@ -46,12 +55,16 @@ const Button = styled.button`
   font-size: 14px;
 `;
 
-const LinkBox = styled.div`
+interface LinkColor {
+  linkColor: string;
+}
+
+const LinkBox = styled.div<LinkColor>`
   font-size: 14px;
-  background-color: rgb(238, 95, 60);
+  background-color: ${(props) => props.linkColor};
   font-weight: 700;
   padding: 8px;
-  border-left: 2px solid #2c2d2d;
+  border-left: 2px solid #2d2d2d;
 `;
 
 function Header() {
@@ -70,16 +83,13 @@ function Header() {
   };
   return (
     <Nav>
-      <Col>
+      <Col className="leftColumn">
         <Menus>
           <Menu>
             <Link to="/">HOME</Link>
           </Menu>
           {isLoggedIn ? (
             <>
-              <Menu>
-                <Link to="/review">MY REVIEWS</Link>
-              </Menu>
               <Menu>
                 <Button onClick={handleLogout}>LOGOUT</Button>
               </Menu>
@@ -96,11 +106,16 @@ function Header() {
           )}
         </Menus>
       </Col>
-      <Col>
+      <Col className="rightColumn">
         {isLoggedIn && (
-          <LinkBox>
-            <Link to="/profile">PROFILE</Link>
-          </LinkBox>
+          <>
+            <LinkBox linkColor="#38A274">
+              <Link to="/review">MY REVIEWS</Link>
+            </LinkBox>
+            <LinkBox linkColor="#F88F03">
+              <Link to="/profile">PROFILE</Link>
+            </LinkBox>
+          </>
         )}
       </Col>
     </Nav>

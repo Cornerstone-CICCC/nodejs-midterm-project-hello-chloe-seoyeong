@@ -1,75 +1,143 @@
 import { useEffect, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { IReviewList, isLoggedInState, reviewsState } from "../atom";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
+import { useForm } from "react-hook-form";
+import { Button, LinkButton, ReviewButton } from "../assets/styled/StyledForm";
 
-const Mainwrap = styled.div`
+const Mainwrap = styled.div``;
+
+const Flexwrap = styled.div`
   display: flex;
   flex-wrap: wrap;
+  gap: 10px;
 `;
 
-const AddBox = styled(motion.div)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 80px;
-  width: 170px;
-  height: 200px;
-  border: 2px solid #2c2d2d;
-  background-color: rgba(255, 255, 255, 1);
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
-`;
 const ReviewBox = styled(motion.div)``;
 
 const Card = styled(motion.div)`
   font-family: "Prompt", sans-serif;
-  width: 170px;
-  height: 200px;
-  border: 1px solid #000;
+  width: 20%;
+  height: 190px;
+  border: 2px solid #2d2d2d;
   background-color: rgba(255, 255, 255, 1);
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
-  padding: 20px;
+  padding: 15px 10px;
   color: #191919;
   position: relative;
-  @media screen and (max-width: 500px) {
-    width: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @media screen and (max-width: 900px) {
+    width: calc(24% - 10px);
+  }
+  @media screen and (max-width: 700px) {
+    width: calc(50% - 10px);
   }
 `;
 
 const Title = styled.div`
   font-size: 20px;
   font-weight: 600;
+  text-align: center;
 `;
 const Emoji = styled(motion.div)`
   font-size: 80px;
   text-align: center;
 `;
-const Button = styled.button`
-  width: 36px;
-  height: 36px;
-  border-radius: 20px;
-  background-color: teal;
-  border: 0;
-  color: #fff;
-  padding: 10px;
+
+const SearchForm = styled.div`
+  display: flex;
+  margin-bottom: 20px;
+  form {
+    display: flex;
+    flex: 1;
+    button {
+      border-right: 0;
+    }
+  }
+  input {
+    border: 2px solid #2d2d2d;
+    border-left: 0;
+    border-right: 0;
+    padding: 8px;
+    width: 100%;
+  }
+  .review-add-button {
+    padding: 7px 12px;
+    a {
+      white-space: nowrap;
+    }
+  }
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+    .review-add-button {
+      width: 100%;
+    }
+    form {
+      border-left: 2px solid #2d2d2d;
+    }
+    .search-form-inner {
+      margin-top: 10px;
+    }
+  }
 `;
 
 const Overlay = styled(motion.div)`
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.3);
   position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `;
 
+const ReviewButtonWrap = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+`;
+
+const DetailCard = styled(motion.div)`
+  font-family: "Prompt", sans-serif;
+  width: 200px;
+  height: 300px;
+  border: 2px solid #2d2d2d;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+  padding: 15px 10px;
+  color: #191919;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const SearchFormInner = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+interface ISearchForm {
+  search: string;
+}
+
 function MyList() {
+  let navigate = useNavigate();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  if (!isLoggedIn) {
+    navigate("/");
+  }
   const constraintsRef = useRef<HTMLDivElement>(null);
 
   const [reviews, setReviews] = useRecoilState(reviewsState);
+
   useEffect(() => {
     (async () => {
       const res = await fetch(`http://localhost:3500/review`, {
@@ -100,6 +168,11 @@ function MyList() {
   const [selectedReview, setSelectedReview] = useState<IReviewList | null>(
     null
   );
+  const [searchResults, setSearchResults] = useState<IReviewList[] | null>(
+    null
+  );
+  const [isSearching, setIsSearching] = useState(false);
+  const [noResult, setNoResult] = useState(false);
 
   const overlay = {
     hidden: { backgroundColor: "rgba(0, 0, 0, 0)" },
@@ -120,64 +193,128 @@ function MyList() {
     setSelectedReview(data);
   };
 
-  console.log(selectedReview);
+  const { register, handleSubmit, setValue } = useForm<ISearchForm>();
+
+  const onValid = async (data: ISearchForm) => {
+    const res = await fetch(
+      `http://localhost:3500/review/search?search=${data.search}`,
+      {
+        method: "GET",
+        credentials: "include",
+      }
+    );
+    if (!res.ok) {
+      setNoResult(true);
+      return;
+    }
+
+    const json = await res.json();
+    setNoResult(false);
+    setIsSearching(true);
+    setValue("search", "");
+    setSearchResults(json);
+  };
+
+  const onReset = () => {
+    setNoResult(false);
+    setIsSearching(false);
+    setValue("search", "");
+    setSearchResults(null);
+  };
 
   return (
     <Mainwrap ref={constraintsRef}>
-      <AddBox>
-        <Link to="/review/create">
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              height="80"
-              width="80"
-              viewBox="0 0 512 512"
-            >
-              <path
-                fill="#454545"
-                d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344l0-64-64 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-64c0-13.3 10.7-24 24-24s24 10.7 24 24l0 64 64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-64 0 0 64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"
-              />
-            </svg>
-          </span>
-        </Link>
-      </AddBox>
+      <SearchForm>
+        <LinkButton className="review-add-button">
+          <Link to="/review/create">LET ME KNOW WHAT YOU PLAYED &rarr;</Link>
+        </LinkButton>
+        <SearchFormInner className="search-form-inner">
+          <form method="GET" onSubmit={handleSubmit(onValid)}>
+            <input type="text" {...register("search")} name="search" />
+            <Button buttonColor="#EE5D3F">SEARCH</Button>
+          </form>
+          <Button buttonColor="#F9C03C" onClick={onReset}>
+            RESET
+          </Button>
+        </SearchFormInner>
+      </SearchForm>
+
       <ReviewBox>
-        {reviews.map((review) => (
-          <Card
-            key={review.id}
-            whileHover={{ backgroundColor: "rgb(46, 204, 113)" }}
-            drag
-            dragSnapToOrigin={false}
-            dragConstraints={constraintsRef}
-            layoutId={review.id + ""}
-          >
-            <Title>{review.title}</Title>
-            <span>{review.category}</span>
-            <Emoji>
-              {review.rate + "" === "0"
-                ? "😆"
-                : review.rate + "" === "1"
-                ? "😁"
-                : review.rate + "" === "2"
-                ? "🙂"
-                : review.rate + "" === "3"
-                ? "😐"
-                : review.rate + "" === "4"
-                ? "😤"
-                : "🤪"}
-            </Emoji>
-            <span>{review.detail}</span>
-            <Button onClick={() => setReviewItem(review.id + "")}>View</Button>
-            <Button onClick={() => deleteReview(review.id)}>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-                <path
-                  fill="#ffffff"
-                  d="M170.5 51.6L151.5 80l145 0-19-28.4c-1.5-2.2-4-3.6-6.7-3.6l-93.7 0c-2.7 0-5.2 1.3-6.7 3.6zm147-26.6L354.2 80 368 80l48 0 8 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-8 0 0 304c0 44.2-35.8 80-80 80l-224 0c-44.2 0-80-35.8-80-80l0-304-8 0c-13.3 0-24-10.7-24-24S10.7 80 24 80l8 0 48 0 13.8 0 36.7-55.1C140.9 9.4 158.4 0 177.1 0l93.7 0c18.7 0 36.2 9.4 46.6 24.9zM80 128l0 304c0 17.7 14.3 32 32 32l224 0c17.7 0 32-14.3 32-32l0-304L80 128zm80 64l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16zm80 0l0 208c0 8.8-7.2 16-16 16s-16-7.2-16-16l0-208c0-8.8 7.2-16 16-16s16 7.2 16 16z"
-                />
-              </svg>
-            </Button>
-          </Card>
-        ))}
+        {noResult && <p>No Result</p>}
+        <Flexwrap
+          style={{ display: isSearching && !noResult ? "flex" : "none" }}
+        >
+          {searchResults?.map((result) => (
+            <Card
+              key={result.id}
+              whileHover={{ backgroundColor: "rgb(46, 204, 113)" }}
+              // drag
+              // dragSnapToOrigin={false}
+              // dragConstraints={constraintsRef}
+              layoutId={result.id + ""}
+            >
+              <Title>{result.title}</Title>
+              <Emoji>
+                {result.rate + "" === "0"
+                  ? "😆"
+                  : result.rate + "" === "1"
+                  ? "😁"
+                  : result.rate + "" === "2"
+                  ? "🙂"
+                  : result.rate + "" === "3"
+                  ? "😐"
+                  : result.rate + "" === "4"
+                  ? "😤"
+                  : "🤪"}
+              </Emoji>
+              <ReviewButtonWrap>
+                <ReviewButton onClick={() => setReviewItem(result.id + "")}>
+                  DETAIL
+                </ReviewButton>
+                <ReviewButton onClick={() => deleteReview(result.id)}>
+                  DELETE
+                </ReviewButton>
+              </ReviewButtonWrap>
+            </Card>
+          ))}
+        </Flexwrap>
+        <Flexwrap
+          style={{ display: isSearching && !noResult ? "none" : "flex" }}
+        >
+          {reviews.map((review) => (
+            <Card
+              key={review.id}
+              whileHover={{ backgroundColor: "rgb(249, 192, 60)" }}
+              // drag
+              // dragSnapToOrigin={false}
+              // dragConstraints={constraintsRef}
+              layoutId={review.id + ""}
+            >
+              <Title>{review.title}</Title>
+              <Emoji>
+                {review.rate + "" === "0"
+                  ? "😆"
+                  : review.rate + "" === "1"
+                  ? "😁"
+                  : review.rate + "" === "2"
+                  ? "🙂"
+                  : review.rate + "" === "3"
+                  ? "😐"
+                  : review.rate + "" === "4"
+                  ? "😤"
+                  : "🤪"}
+              </Emoji>
+              <ReviewButtonWrap>
+                <ReviewButton onClick={() => setReviewItem(review.id + "")}>
+                  DETAIL
+                </ReviewButton>
+                <ReviewButton onClick={() => deleteReview(review.id)}>
+                  DELETE
+                </ReviewButton>
+              </ReviewButtonWrap>
+            </Card>
+          ))}
+        </Flexwrap>
       </ReviewBox>
       <AnimatePresence>
         {reviewBoxId ? (
@@ -188,16 +325,30 @@ function MyList() {
             exit="exit"
             onClick={() => setReviewBoxId(null)}
           >
-            <Card layoutId={reviewBoxId}>
+            <DetailCard layoutId={reviewBoxId}>
               {selectedReview !== null ? (
                 <>
-                  <p>{selectedReview.title}</p>
+                  <Title>{selectedReview.title}</Title>
+                  <Emoji>
+                    {selectedReview.rate + "" === "0"
+                      ? "😆"
+                      : selectedReview.rate + "" === "1"
+                      ? "😁"
+                      : selectedReview.rate + "" === "2"
+                      ? "🙂"
+                      : selectedReview.rate + "" === "3"
+                      ? "😐"
+                      : selectedReview.rate + "" === "4"
+                      ? "😤"
+                      : "🤪"}
+                  </Emoji>
                   <p>{selectedReview.detail}</p>
+                  <p>{selectedReview.category}</p>
                 </>
               ) : (
                 ""
               )}
-            </Card>
+            </DetailCard>
           </Overlay>
         ) : null}
       </AnimatePresence>
