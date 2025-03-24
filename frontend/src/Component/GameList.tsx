@@ -137,13 +137,21 @@ const controlVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { type: "spring", delay: 0.1, damping: 3 },
+    transition: { type: "spring", delay: 0.2, damping: 3 },
   },
   exit: {
     x: "-100vh",
     transition: { ease: "easeInOut" },
   },
 };
+
+const LoadingText = styled.div`
+  font-size: 30px;
+  text-align: center;
+  padding: 100px 0;
+  color: #2d2d2d;
+  font-weight: 700;
+`;
 function GameList() {
   const controls = useAnimationControls();
 
@@ -167,7 +175,7 @@ function GameList() {
   return (
     <>
       {isLoading ? (
-        <span>Loading...</span>
+        <LoadingText>Loading...</LoadingText>
       ) : (
         <BoardBase>
           {games?.slice(0, 8).map((game) => (
