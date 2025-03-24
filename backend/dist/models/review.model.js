@@ -31,7 +31,10 @@ class BoardGame {
         const newReview = {
             id: (0, uuid_1.v4)(),
             title,
-            category,
+            category: category
+                .trim()
+                .split(",")
+                .map((word) => `#${word}`),
             rate,
             detail,
         };
@@ -45,11 +48,11 @@ class BoardGame {
             if (review === -1)
                 return false;
             const updateReview = Object.assign(Object.assign({}, this.boardGamesReviews[review]), { title: (_a = updates.title) !== null && _a !== void 0 ? _a : this.boardGamesReviews[review].title, category: (_b = updates.category) !== null && _b !== void 0 ? _b : this.boardGamesReviews[review].category });
-            this.boardGamesReviews = [
-                ...this.boardGamesReviews.slice(0, review),
-                updateReview,
-                ...this.boardGamesReviews.slice(review + 1),
-            ];
+            // this.boardGamesReviews = [
+            //   ...this.boardGamesReviews.slice(0, review),
+            //   updateReview,
+            //   ...this.boardGamesReviews.slice(review + 1),
+            // ];
             return updateReview;
         });
     }

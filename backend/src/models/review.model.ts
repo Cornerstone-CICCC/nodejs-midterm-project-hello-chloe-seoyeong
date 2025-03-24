@@ -1,8 +1,8 @@
-import { IBoardGameReview } from "../types/game";
+import { IBoardGameReview, IBoardGameReviewHashTag } from "../types/game";
 import { v4 as uuidv4 } from "uuid";
 
 class BoardGame {
-  private boardGamesReviews: IBoardGameReview[] = [];
+  private boardGamesReviews: IBoardGameReviewHashTag[] = [];
 
   getAllReviews() {
     if (this.boardGamesReviews.length === 0) return false;
@@ -19,7 +19,10 @@ class BoardGame {
     const newReview = {
       id: uuidv4(),
       title,
-      category,
+      category: category
+        .trim()
+        .split(",")
+        .map((word) => `#${word}`),
       rate,
       detail,
     };
@@ -35,11 +38,11 @@ class BoardGame {
       title: updates.title ?? this.boardGamesReviews[review].title,
       category: updates.category ?? this.boardGamesReviews[review].category,
     };
-    this.boardGamesReviews = [
-      ...this.boardGamesReviews.slice(0, review),
-      updateReview,
-      ...this.boardGamesReviews.slice(review + 1),
-    ];
+    // this.boardGamesReviews = [
+    //   ...this.boardGamesReviews.slice(0, review),
+    //   updateReview,
+    //   ...this.boardGamesReviews.slice(review + 1),
+    // ];
     return updateReview;
   }
   deleteReview(id: string) {
@@ -53,8 +56,8 @@ class BoardGame {
     return this.boardGamesReviews.findIndex((r) => r.id === id);
   }
   searchReview(search: string) {
-    const result: IBoardGameReview[] = this.boardGamesReviews.filter((r) =>
-      r.title.toLowerCase().includes(search)
+    const result: IBoardGameReviewHashTag[] = this.boardGamesReviews.filter(
+      (r) => r.title.toLowerCase().includes(search)
     );
     return result;
   }

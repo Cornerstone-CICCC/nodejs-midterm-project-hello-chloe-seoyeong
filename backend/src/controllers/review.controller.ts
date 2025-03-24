@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import reviewModel from "../models/review.model";
 import { IUser } from "../types/user";
-import { IBoardGameReview } from "../types/game";
+import { IBoardGameReview, IBoardGameReviewHashTag } from "../types/game";
 
 /**
  * Get all reviews
@@ -97,9 +97,8 @@ const getSearchReview = async (
   res: Response
 ) => {
   const { search } = req.query;
-  const searchResult: IBoardGameReview[] = await reviewModel.searchReview(
-    search
-  );
+  const searchResult: IBoardGameReviewHashTag[] =
+    await reviewModel.searchReview(search);
   if (searchResult.length === 0) {
     res.status(400).json({
       message: "No result",

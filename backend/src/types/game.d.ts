@@ -6,6 +6,14 @@ export interface IBoardGameReview {
   detail: string;
 }
 
+export interface IBoardGameReviewHashTag {
+  id: string;
+  title: string;
+  rate: number;
+  category: string[];
+  detail: string;
+}
+
 export interface IBoardGame {
   gameId: number;
   name: string;
