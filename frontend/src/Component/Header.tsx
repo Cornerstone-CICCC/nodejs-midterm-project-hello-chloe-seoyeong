@@ -106,18 +106,16 @@ function Header() {
           )}
         </Menus>
       </Col>
-      <Col className="rightColumn">
-        {isLoggedIn && (
-          <>
-            <LinkBox linkColor="#38A274">
-              <Link to="/review">MY REVIEWS</Link>
-            </LinkBox>
-            <LinkBox linkColor="#F88F03">
-              <Link to="/profile">PROFILE</Link>
-            </LinkBox>
-          </>
-        )}
-      </Col>
+      {isLoggedIn && (
+        <Col className="rightColumn">
+          <LinkBox linkColor="#38A274">
+            <Link to="/review">MY REVIEWS</Link>
+          </LinkBox>
+          <LinkBox linkColor="#F88F03">
+            <Link to="/profile">PROFILE</Link>
+          </LinkBox>
+        </Col>
+      )}
     </Nav>
   );
 }

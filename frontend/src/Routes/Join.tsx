@@ -58,7 +58,7 @@ function Register() {
                 })}
                 type="text"
                 name="username"
-                placeholder="Write a username more than 3 characters."
+                placeholder="Write a username..."
               />
             </Label>
             <ErrorMessage>{errors?.username?.message}</ErrorMessage>
@@ -74,7 +74,7 @@ function Register() {
                 })}
                 type="password"
                 name="password"
-                placeholder="Write a password more than 8 characters and numbers"
+                placeholder="Write a password..."
               />
             </Label>
             <ErrorMessage>{errors?.password?.message}</ErrorMessage>

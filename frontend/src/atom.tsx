@@ -29,7 +29,7 @@ export interface IGameList {
 export interface IReviewList {
   id: number;
   title: string;
-  category: string;
+  category: string[];
   rate: RateEmoji;
   detail: string;
 }

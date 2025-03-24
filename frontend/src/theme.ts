@@ -7,11 +7,11 @@ export const darkTheme: DefaultTheme = {
 };
 
 // #F9EEEE
-// #F9C03C
-// #F88F03
-// #F8AEA8
-// #EE5D3F
-// #9DC4E9
-// #38A274
+//rgb(249, 192, 60)
+//rgb(248, 143, 3)
+//rgb(248, 174, 168)
+//rgb(238, 93, 63)
+//rgb(157, 196, 233)
+//rgb(56, 162, 116)
 // #2D2D2D
-// #0F63A6
+//rgb(15, 99, 166)

@@ -124,15 +124,20 @@ const CornerInner = styled.div`
   }
 `;
 
+const Welcome = styled(motion.p)`
+  font-family: "Boldonse", system-ui;
+  font-size: 36px;
+`;
+
 const controlVariants = {
   hidden: {
     opacity: 0,
-    x: "100vw",
+    y: "200px",
   },
   visible: {
     opacity: 1,
-    x: 0,
-    transition: { type: "spring", delay: 0.1 },
+    y: 0,
+    transition: { type: "spring", delay: 0.1, damping: 3 },
   },
   exit: {
     x: "-100vh",
@@ -169,16 +174,13 @@ function GameList() {
             <BoardBox key={game.gameId} {...game} />
           ))}
           <BoardCenter>
-            <p>Play?</p>
-            <RandomBox
+            <Welcome
               variants={controlVariants}
               initial="hidden"
-              animate={controls}
-              exit="exit"
-            />
-            <Button onClick={() => controls.start("visible")}>
-              Pick A Game
-            </Button>
+              animate="visible"
+            >
+              ENJOYED IT?
+            </Welcome>
           </BoardCenter>
           <RightBottom>
             {isLoggedIn ? (

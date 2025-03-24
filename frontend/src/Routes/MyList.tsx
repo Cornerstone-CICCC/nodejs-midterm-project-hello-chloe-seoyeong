@@ -101,27 +101,50 @@ const Overlay = styled(motion.div)`
 
 const ReviewButtonWrap = styled.div`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 8px;
 `;
 
 const DetailCard = styled(motion.div)`
   font-family: "Prompt", sans-serif;
-  width: 200px;
-  height: 300px;
+  width: 60%;
+  max-width: 400px;
   border: 2px solid #2d2d2d;
   background-color: rgba(255, 255, 255, 1);
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
-  padding: 15px 10px;
+  padding: 15px;
   color: #191919;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background-color: rgb(248, 174, 168);
+`;
+
+const Detail = styled.div`
+  border: 2px solid #2d2d2d;
+  background-color: rgb(249, 192, 60);
+  padding: 20px;
+  text-align: center;
+  .review-hashtags {
+    margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 `;
 
 const SearchFormInner = styled.div`
   display: flex;
   width: 100%;
+`;
+
+const Hashtag = styled.span`
+  display: inline-block;
+  padding: 4px;
+  border: 2px solid #2d2d2d;
+  background-color: rgb(15, 99, 166);
+  color: #fff;
 `;
 
 interface ISearchForm {
@@ -327,7 +350,7 @@ function MyList() {
           >
             <DetailCard layoutId={reviewBoxId}>
               {selectedReview !== null ? (
-                <>
+                <Detail>
                   <Title>{selectedReview.title}</Title>
                   <Emoji>
                     {selectedReview.rate + "" === "0"
@@ -343,8 +366,12 @@ function MyList() {
                       : "🤪"}
                   </Emoji>
                   <p>{selectedReview.detail}</p>
-                  <p>{selectedReview.category}</p>
-                </>
+                  <div className="review-hashtags">
+                    {selectedReview.category.map((tag) => (
+                      <Hashtag>{tag}</Hashtag>
+                    ))}
+                  </div>
+                </Detail>
               ) : (
                 ""
               )}

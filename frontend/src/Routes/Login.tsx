@@ -61,6 +61,7 @@ function Login() {
                 })}
                 type="text"
                 name="username"
+                placeholder="Write your username"
               />
             </Label>
             <ErrorMessage>{errors?.username?.message}</ErrorMessage>
@@ -76,6 +77,7 @@ function Login() {
                 })}
                 type="password"
                 name="password"
+                placeholder="Write your password"
               />
             </Label>
             <ErrorMessage>{errors?.password?.message}</ErrorMessage>

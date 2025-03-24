@@ -65,6 +65,7 @@ const Board = styled(motion.div)`
       width: 33.33%;
       padding: 0;
       padding-top: 20px;
+
       .mark {
         top: 0;
         bottom: unset;
@@ -72,7 +73,20 @@ const Board = styled(motion.div)`
         left: 0;
         height: 20px;
         width: 100%;
+        border-bottom: 2px solid #2d2d2d;
         /* display: none; */
+      }
+    }
+    &:first-child,
+    &:nth-child(2) {
+      .mark {
+        border-top: 0;
+      }
+    }
+    &:nth-child(3),
+    &:nth-child(4) {
+      .mark {
+        border-left: 0;
       }
     }
   }
@@ -113,12 +127,27 @@ const Title = styled.div`
   font-size: 24px;
   color: #2d2d2d;
   font-weight: 600;
-  font-family: "Noto Serif Display", serif;
+  /* font-family: "Noto Serif Display", serif; */
+  font-family: "Prompt", sans-serif;
+  text-transform: uppercase;
+  text-overflow: ellipsis;
+  width: 200px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+  padding: 0 10px;
 `;
 
 const Year = styled.span`
   background-color: teal;
   color: #fff;
+`;
+
+const ALink = styled.a`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 `;
 
 const Img = styled.div`
@@ -144,11 +173,16 @@ function BoardBox({ gameId, name, thumbnail, yearPublished }: IGameList) {
       transition={{ type: "spring" }}
     >
       <Mark className="mark" />
-      <Title>{name}</Title>
-      <Img>
-        <img src={thumbnail} alt="" />
-      </Img>
-      {/* <Year>{yearPublished}</Year> */}
+      <ALink
+        href={`https://boardgamegeek.com/boardgame/${gameId}`}
+        target="_blank"
+      >
+        <Title>{name}</Title>
+        <Img>
+          <img src={thumbnail} alt="" />
+        </Img>
+        {/* <Year>{yearPublished}</Year> */}
+      </ALink>
     </Board>
   );
 }

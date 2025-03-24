@@ -60,6 +60,11 @@ export const Input = styled.input`
   border: 2px solid #2d2d2d;
   margin-top: 8px;
   font-family: "Prompt", "sans-serif";
+  &:read-only {
+    background-color: transparent;
+    border: 0;
+    font-size: 18px;
+  }
 `;
 
 export const Button = styled.button<ButtonColor>`

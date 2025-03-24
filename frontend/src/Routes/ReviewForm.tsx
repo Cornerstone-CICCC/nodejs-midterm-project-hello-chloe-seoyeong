@@ -50,7 +50,7 @@ function ReviewForm() {
                 })}
                 type="text"
                 name="title"
-                placeholder="Write a username more than 3 characters."
+                placeholder="Write the game name you played."
               />
             </Label>
             <ErrorMessage>{errors?.title?.message}</ErrorMessage>
@@ -62,19 +62,17 @@ function ReviewForm() {
                 })}
                 type="text"
                 name="detail"
-                placeholder="Write a password more than 8 characters and numbers"
+                placeholder="Tell me more, how was it"
               />
             </Label>
             <ErrorMessage>{errors?.detail?.message}</ErrorMessage>
             <Label>
               <span>Category</span>
               <Input
-                {...register("category", {
-                  required: "Firstname is required",
-                })}
+                {...register("category")}
                 type="text"
                 name="category"
-                placeholder="Write a firstname"
+                placeholder="Separate by comma, , , "
               />
             </Label>
             <ErrorMessage>{errors?.category?.message}</ErrorMessage>
