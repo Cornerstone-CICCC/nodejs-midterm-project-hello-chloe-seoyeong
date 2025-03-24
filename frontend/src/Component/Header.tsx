@@ -42,6 +42,10 @@ const Menu = styled.li`
   }
   &:nth-child(2) {
     background-color: #0f64a6;
+    color: #fff;
+    button {
+      color: #fff;
+    }
   }
   &:nth-child(3) {
     background-color: #39a375;
