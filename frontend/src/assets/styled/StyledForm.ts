@@ -12,6 +12,7 @@ interface ButtonColor {
 export const MainWrap = styled.div`
   display: grid;
   place-items: center;
+  margin-top: 100px;
   /* height: calc(100vh - 100px); */
 `;
 
@@ -23,7 +24,6 @@ export const FormCard = styled.div<CardBgColor>`
   width: 100%;
   max-width: 360px;
   margin: 0 auto;
-  margin-top: -100px;
   color: #191919;
   font-family: "Prompt", "sans-serif";
   @media screen and (max-width: 900px) {
