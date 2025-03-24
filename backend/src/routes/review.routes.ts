@@ -4,6 +4,7 @@ import reviewController from "../controllers/review.controller";
 const reviewRouter = Router();
 
 reviewRouter.get("/", reviewController.getAllReviews);
+reviewRouter.get("/search", reviewController.getSearchReview);
 reviewRouter.get("/:id", reviewController.getReviewById);
 reviewRouter.delete("/:id/delete", reviewController.deleteReview);
 reviewRouter.put("/:id/edit", reviewController.editReview);

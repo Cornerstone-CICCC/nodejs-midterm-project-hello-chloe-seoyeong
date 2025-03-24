@@ -91,10 +91,28 @@ const editReview = async (
   }
   res.status(200).json(edited);
 };
+
+const getSearchReview = async (
+  req: Request<{}, {}, {}, { search: string }>,
+  res: Response
+) => {
+  const { search } = req.query;
+  const searchResult: IBoardGameReview[] = await reviewModel.searchReview(
+    search
+  );
+  if (searchResult.length === 0) {
+    res.status(400).json({
+      message: "No result",
+    });
+    return;
+  }
+  res.status(200).json(searchResult);
+};
 export default {
   getAllReviews,
   getReviewById,
   createReview,
   deleteReview,
   editReview,
+  getSearchReview,
 };

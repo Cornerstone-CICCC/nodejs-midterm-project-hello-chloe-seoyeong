@@ -87,10 +87,22 @@ const editReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
     res.status(200).json(edited);
 });
+const getSearchReview = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { search } = req.query;
+    const searchResult = yield review_model_1.default.searchReview(search);
+    if (searchResult.length === 0) {
+        res.status(400).json({
+            message: "No result",
+        });
+        return;
+    }
+    res.status(200).json(searchResult);
+});
 exports.default = {
     getAllReviews,
     getReviewById,
     createReview,
     deleteReview,
     editReview,
+    getSearchReview,
 };

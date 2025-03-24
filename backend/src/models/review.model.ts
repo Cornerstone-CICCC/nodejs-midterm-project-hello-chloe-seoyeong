@@ -52,6 +52,12 @@ class BoardGame {
   foundIndexReview(id: string) {
     return this.boardGamesReviews.findIndex((r) => r.id === id);
   }
+  searchReview(search: string) {
+    const result: IBoardGameReview[] = this.boardGamesReviews.filter((r) =>
+      r.title.toLowerCase().includes(search)
+    );
+    return result;
+  }
 }
 
 export default new BoardGame();
