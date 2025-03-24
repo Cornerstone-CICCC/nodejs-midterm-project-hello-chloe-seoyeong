@@ -67,7 +67,7 @@ function ReviewForm() {
             </Label>
             <ErrorMessage>{errors?.detail?.message}</ErrorMessage>
             <Label>
-              <span>Category</span>
+              <span>Tags</span>
               <Input
                 {...register("category")}
                 type="text"

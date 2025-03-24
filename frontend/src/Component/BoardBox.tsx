@@ -171,6 +171,7 @@ function BoardBox({ gameId, name, thumbnail, yearPublished }: IGameList) {
       initial={{ opacity: 0.5 }} // 초기값
       animate={{ opacity: 1 }}
       transition={{ type: "spring" }}
+      whileHover={{ backgroundColor: "rgb(248, 174, 168)" }}
     >
       <Mark className="mark" />
       <ALink
